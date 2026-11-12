@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://26j67q0jwf28"]
+
+[ext_resource type="Texture2D" uid="uid://b50nl2i47jmxu" path="res://assets/sprites/GUI/Dark/Deck/deck_night_new_anim1.png" id="1_5a66h"]
+[ext_resource type="PackedScene" uid="uid://bckoudearq7ch" path="res://scenes/desk/phone.tscn" id="2_78764"]
+[ext_resource type="Texture2D" uid="uid://bvqe1iq8nu006" path="res://assets/sprites/GUI/Dark/Deck/deck_night_new_anim2.png" id="2_wxxgs"]
+[ext_resource type="Texture2D" uid="uid://ynrowlt8b2ap" path="res://assets/sprites/GUI/Dark/Deck/deck_night_new_anim3.png" id="3_0uycm"]
+[ext_resource type="PackedScene" uid="uid://cm0688qp0gyq3" path="res://scenes/desk/journal.tscn" id="3_78764"]
+[ext_resource type="PackedScene" uid="uid://dhblla1k00vc1" path="res://scenes/desk/monitor.tscn" id="4_2r18a"]
+[ext_resource type="Texture2D" uid="uid://kqrnh0dm127x" path="res://assets/sprites/GUI/Dark/Deck/deck_night_new_anim4.png" id="4_fw753"]
+[ext_resource type="Texture2D" uid="uid://dd7nmiyldb2fa" path="res://assets/sprites/GUI/Light/Deck/deck_new_anim1.png" id="5_3gufr"]
+[ext_resource type="Texture2D" uid="uid://bylajrtg6lu03" path="res://assets/sprites/GUI/Light/Deck/deck_new_anim2.png" id="6_bd6od"]
+[ext_resource type="Texture2D" uid="uid://chy1arw7oocpo" path="res://assets/sprites/GUI/Light/Deck/deck_new_anim3.png" id="7_yyfnj"]
+[ext_resource type="Texture2D" uid="uid://dts54xg68k6hx" path="res://assets/sprites/GUI/Light/Deck/deck_new_anim4.png" id="8_ubx8w"]
+[ext_resource type="Script" uid="uid://ruxe60kd0gby" path="res://scripts/environment_anim.gd" id="9_3gufr"]
+[ext_resource type="PackedScene" uid="uid://dxry03p06uefq" path="res://scenes/desk/radio.tscn" id="12_fw753"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lfhn1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5a66h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_wxxgs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0uycm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fw753")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_3gufr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bd6od")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_yyfnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ubx8w")
+}],
+"loop": true,
+"name": &"light",
+"speed": 5.0
+}]
+
+[node name="Desk" type="Node2D" unique_id=1222565765]
+texture_filter = 1
+script = ExtResource("9_3gufr")
+anim_lit = "light"
+
+[node name="Desk" type="AnimatedSprite2D" parent="." unique_id=739158060]
+sprite_frames = SubResource("SpriteFrames_lfhn1")
+animation = &"dark"
+script = ExtResource("9_3gufr")
+item_name = "Desk"
+anim_lit = "light"
+
+[node name="Monitor" parent="." unique_id=19863400 instance=ExtResource("4_2r18a")]
+item_name = "pc"
+
+[node name="Journal" parent="." unique_id=306675273 instance=ExtResource("3_78764")]
+item_name = "journal"
+
+[node name="Phone" parent="." unique_id=1767807156 instance=ExtResource("2_78764")]
+item_name = "phone"
+
+[node name="Radio" parent="." unique_id=1342541566 instance=ExtResource("12_fw753")]
+item_name = "radio"

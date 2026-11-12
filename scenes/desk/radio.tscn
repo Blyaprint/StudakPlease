@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dxry03p06uefq"]
+
+[ext_resource type="Script" uid="uid://dto2oj67x015d" path="res://scripts/radio.gd" id="1_da5u1"]
+[ext_resource type="Texture2D" uid="uid://6hgqpplktb6w" path="res://assets/sprites/GUI/Dark/Radio/DarkDeck_Radio1.png" id="2_da5u1"]
+[ext_resource type="Texture2D" uid="uid://qxs562xh76x1" path="res://assets/sprites/GUI/Dark/Radio/DarkDeck_Radio2.png" id="3_0l0j5"]
+[ext_resource type="Texture2D" uid="uid://nnwlr25b2vq3" path="res://assets/sprites/GUI/Dark/Radio/DarkDeck_Radio3.png" id="4_g7psf"]
+[ext_resource type="Texture2D" uid="uid://by6oiv46rlcg8" path="res://assets/sprites/GUI/Dark/Radio/DarkDeck_Radio4.png" id="5_sgpux"]
+[ext_resource type="Texture2D" uid="uid://b02trxqv75w8" path="res://assets/sprites/GUI/Light/Radio/Lightdeck_radio1.png" id="6_svuh0"]
+[ext_resource type="Texture2D" uid="uid://dota2unhhewyh" path="res://assets/sprites/GUI/Light/Radio/Lightdeck_radio2.png" id="7_wbjq3"]
+[ext_resource type="Texture2D" uid="uid://chq1515qlub1" path="res://assets/sprites/GUI/Light/Radio/Lightdeck_radio3.png" id="8_phj2n"]
+[ext_resource type="Texture2D" uid="uid://u5wjvabj6dwn" path="res://assets/sprites/GUI/Light/Radio/Lightdeck_radio4.png" id="9_owpxj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vtha"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_da5u1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0l0j5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_g7psf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_sgpux")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_svuh0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_wbjq3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_phj2n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_owpxj")
+}],
+"loop": true,
+"name": &"light",
+"speed": 12.0
+}]
+
+[node name="Radio" type="Node2D" unique_id=1785363589]
+texture_filter = 1
+script = ExtResource("1_da5u1")
+anim_lit = "light"
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=497845535]
+sprite_frames = SubResource("SpriteFrames_6vtha")
+animation = &"dark"
+autoplay = "dark"
+
+[node name="CollisionShape2D" type="Polygon2D" parent="." unique_id=863555952]
+position = Vector2(100, 17)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-10, -11, 16, -11, 20, -8, 20, 12, -19, 12, -21, 11, -21, -8, -20, -10, -18, -11, -15, -11, -15, -16, -14, -16, -14, -31, -11, -32, -11, -16, -10, -16)

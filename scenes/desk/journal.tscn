@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cm0688qp0gyq3"]
+
+[ext_resource type="Script" uid="uid://35v3u3g3aydj" path="res://scripts/journal.gd" id="1_pdsir"]
+[ext_resource type="Texture2D" uid="uid://b6vx76wg2gmdy" path="res://assets/sprites/GUI/Dark/Jornal/DarkDeck_Journal1.png" id="2_expj5"]
+[ext_resource type="Texture2D" uid="uid://bb7woe8n7y14f" path="res://assets/sprites/GUI/Dark/Jornal/DarkDeck_Journal2.png" id="3_5lkdw"]
+[ext_resource type="Texture2D" uid="uid://dahx65g42n5w8" path="res://assets/sprites/GUI/Dark/Jornal/DarkDeck_Journal3.png" id="4_wm35i"]
+[ext_resource type="Texture2D" uid="uid://255quqwwohdy" path="res://assets/sprites/GUI/Dark/Jornal/DarkDeck_Journal4.png" id="5_ifwa0"]
+[ext_resource type="Texture2D" uid="uid://be536381awmtt" path="res://assets/sprites/GUI/Light/Jornal/Lightdeck_journal1.png" id="6_24als"]
+[ext_resource type="Texture2D" uid="uid://v6glphicusv5" path="res://assets/sprites/GUI/Light/Jornal/Lightdeck_journal2.png" id="7_udi8e"]
+[ext_resource type="Texture2D" uid="uid://bndceflhgfyp1" path="res://assets/sprites/GUI/Light/Jornal/Lightdeck_journal3.png" id="8_g5uif"]
+[ext_resource type="Texture2D" uid="uid://bql1d3mdktb4p" path="res://assets/sprites/GUI/Light/Jornal/Lightdeck_journal4.png" id="9_1kaa2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l42di"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_expj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5lkdw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wm35i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ifwa0")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_24als")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_udi8e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_g5uif")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_1kaa2")
+}],
+"loop": true,
+"name": &"light",
+"speed": 12.0
+}]
+
+[node name="Journal" type="Node2D" unique_id=528122022]
+script = ExtResource("1_pdsir")
+item_name = "Journal"
+anim_lit = "light"
+force_first_frame = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1059307805]
+sprite_frames = SubResource("SpriteFrames_l42di")
+animation = &"dark"
+
+[node name="CollisionShape2D" type="Polygon2D" parent="." unique_id=507654998]
+position = Vector2(4, 34)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(0, -9, 12, -9, 20, -8, 24, -5, 27, 1, 29, 6, 29, 9, -29, 9, -29, 4, -27, -2, -25, -6, -23, -8, -13, -9)

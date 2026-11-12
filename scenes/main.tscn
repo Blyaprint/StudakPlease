@@ -1,0 +1,243 @@
+[gd_scene format=3 uid="uid://w4xhyp5gpfgo"]
+
+[ext_resource type="Script" uid="uid://pgqc4t3am21t" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://dn7dkwliv3kq6" path="res://assets/sprites/GUI/Light/Back/back_new_anim1.png" id="2_choun"]
+[ext_resource type="Texture2D" uid="uid://d0kvs02a6ffqy" path="res://assets/sprites/GUI/Dark/Back/back_new_anim_night1.png" id="2_fv21b"]
+[ext_resource type="PackedScene" uid="uid://26j67q0jwf28" path="res://scenes/desk/desk.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://d2p8d3dmna547" path="res://assets/sprites/GUI/Dark/Back/back_new_anim_night2.png" id="3_tel4y"]
+[ext_resource type="Texture2D" uid="uid://d2hg82vb48wgu" path="res://assets/sprites/GUI/Light/Back/back_new_anim2.png" id="3_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://db2ghdnn7p5f6" path="res://assets/sprites/GUI/Light/Back/back_new_anim3.png" id="4_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://22x430f6f13e" path="res://scenes/ui/night_overlay.tscn" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://kjd2vd36n7eg" path="res://assets/sprites/GUI/Dark/Back/back_new_anim_night3.png" id="4_qkpxi"]
+[ext_resource type="Texture2D" uid="uid://daggfvhitr8ou" path="res://assets/sprites/GUI/Dark/Back/back_new_anim_night4.png" id="5_5q0nq"]
+[ext_resource type="Shader" uid="uid://c2n8yt5qb8xlm" path="res://assets/shaders/screen_fx.gdshader" id="5_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://ddd2bvhe147yy" path="res://assets/sprites/GUI/Light/Back/back_new_anim4.png" id="5_trceg"]
+[ext_resource type="Script" uid="uid://ruxe60kd0gby" path="res://scripts/environment_anim.gd" id="10_trceg"]
+[ext_resource type="PackedScene" uid="uid://djgmfl55nafbk" path="res://scenes/npc.tscn" id="14_a8y0u"]
+[ext_resource type="FontFile" uid="uid://bdpjtkpraxohm" path="res://assets/fonts/Hardpixel.OTF" id="14_jbj1t"]
+[ext_resource type="Texture2D" uid="uid://btbbp2wj5y1a5" path="res://assets/sprites/GUI/oneblock.png" id="15_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://mpirf0780a6w" path="res://scenes/pc.tscn" id="17_muem4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tefeu"]
+shader = ExtResource("5_tbgi4")
+shader_parameter/aberration_strength = 3.6330001725675
+shader_parameter/aberration_vignette = 0.18400000874
+shader_parameter/noise_strength = 0.010000000475
+shader_parameter/noise_speed = 0.010000000475
+shader_parameter/viewport_size = Vector2(334, 187)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a8y0u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fv21b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tel4y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qkpxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5q0nq")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_choun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ya4ey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_eb6dy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_trceg")
+}],
+"loop": true,
+"name": &"light",
+"speed": 6.0
+}]
+
+[node name="main" type="Node2D" unique_id=1678034725]
+texture_filter = 1
+script = ExtResource("1_sugp2")
+
+[node name="NightOverlay" parent="." unique_id=1335708732 instance=ExtResource("4_jyhfs")]
+
+[node name="PostFX Layer" type="CanvasLayer" parent="." unique_id=522691980]
+layer = 6
+
+[node name="ColorRect" type="ColorRect" parent="PostFX Layer" unique_id=847813848]
+material = SubResource("ShaderMaterial_tefeu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Desk" type="CanvasLayer" parent="." unique_id=1609884320]
+layer = 3
+offset = Vector2(320, 150)
+scale = Vector2(1.4, 1.4)
+transform = Transform2D(1.4, 0, 0, 1.4, 320, 150)
+
+[node name="Desk" parent="Desk" unique_id=1222565765 instance=ExtResource("2_sugp2")]
+position = Vector2(-80.00012, 0)
+
+[node name="BG_Node" type="Node2D" parent="." unique_id=11493816]
+position = Vector2(208.00002, 150)
+scale = Vector2(1.4, 1.4)
+script = ExtResource("10_trceg")
+anim_lit = "light"
+
+[node name="Back" type="AnimatedSprite2D" parent="BG_Node" unique_id=1614045553]
+sprite_frames = SubResource("SpriteFrames_a8y0u")
+animation = &"light"
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1699845727]
+layer = 5
+
+[node name="DialogPanel" type="ColorRect" parent="UILayer" unique_id=2137063575]
+custom_minimum_size = Vector2(400, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 10.0
+offset_right = 200.0
+offset_bottom = 34.0
+grow_horizontal = 2
+color = Color(0.0885599, 0.0885599, 0.0885599, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="DialogText" type="Label" parent="UILayer/DialogPanel" unique_id=1655486996]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("14_jbj1t")
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
+position = Vector2(-153.99994, 129.00002)
+scale = Vector2(1.4, 1.4)
+speed = 75.0
+spawn_pos = Vector2(28, 150)
+wait_pos = Vector2(208, 160)
+exit_right_pos = Vector2(558, 150)
+exit_left_pos = Vector2(-180, 150)
+spawn_scale = 1.0
+wait_scale = 1.5
+exit_scale = 1.0
+reveal_time = 1.5
+fade_to_shadow_time = 0.7
+rock_angle = 1.0
+rock_shift = 1.0
+
+[node name="Frames" type="CanvasLayer" parent="." unique_id=1578482890]
+layer = 4
+
+[node name="Left" type="ColorRect" parent="Frames" unique_id=1711477800]
+custom_minimum_size = Vector2(100, 360)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_right = -626.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Right" type="ColorRect" parent="Frames" unique_id=703945772]
+custom_minimum_size = Vector2(100, 360)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 402.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Bottom" type="ColorRect" parent="Frames" unique_id=886251573]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 259.0
+offset_right = -220.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Top" type="ColorRect" parent="Frames" unique_id=1894698171]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -224.0
+offset_bottom = -319.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Oneblock" type="Sprite2D" parent="Frames" unique_id=1480650378]
+position = Vector2(160, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock2" type="Sprite2D" parent="Frames" unique_id=563373356]
+position = Vector2(200, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock3" type="Sprite2D" parent="Frames" unique_id=1877107758]
+position = Vector2(240, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock4" type="Sprite2D" parent="Frames" unique_id=1921824720]
+position = Vector2(280, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock5" type="Sprite2D" parent="Frames" unique_id=55874268]
+position = Vector2(320, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock6" type="Sprite2D" parent="Frames" unique_id=1446873159]
+position = Vector2(360, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock7" type="Sprite2D" parent="Frames" unique_id=1131663412]
+position = Vector2(400, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock8" type="Sprite2D" parent="Frames" unique_id=1402683148]
+position = Vector2(440, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock9" type="Sprite2D" parent="Frames" unique_id=693674192]
+position = Vector2(480, 296)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jkv2x")
+
+[node name="Oneblock10" type="Sprite2D" parent="Frames" unique_id=2036989495]
+position = Vector2(520, 152)
+scale = Vector2(3.375, 3.375)
+texture = ExtResource("15_jkv2x")
+
+[node name="PC" parent="." unique_id=224578492 instance=ExtResource("17_muem4")]

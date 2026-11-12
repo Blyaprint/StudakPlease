@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://w4xhyp5gpfgo"]
+
+[ext_resource type="Texture2D" uid="uid://cxhhxrh5ta60l" path="res://assets/sprites/back.png" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://pgqc4t3am21t" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://26j67q0jwf28" path="res://scenes/desk/desk.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://22x430f6f13e" path="res://scenes/ui/night_overlay.tscn" id="4_jyhfs"]
+
+[node name="main" type="Node2D" unique_id=1678034725]
+texture_filter = 1
+script = ExtResource("1_sugp2")
+
+[node name="Back" type="Sprite2D" parent="." unique_id=2101318608]
+position = Vector2(167, 93)
+texture = ExtResource("1_0wfyh")
+
+[node name="NightOverlay" parent="." unique_id=1335708732 instance=ExtResource("4_jyhfs")]
+
+[node name="Desk" parent="." unique_id=1222565765 instance=ExtResource("2_sugp2")]
+z_index = 5
+position = Vector2(0, 32)

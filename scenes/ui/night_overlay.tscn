@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://22x430f6f13e"]
+
+[ext_resource type="Shader" uid="uid://cwujxcamushjb" path="res://assets/shaders/night_light.gdshader" id="1_h18gf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8lwyt"]
+shader = ExtResource("1_h18gf")
+shader_parameter/shadow_color = Color(0.083217405, 0.08508734, 0.08588766, 1)
+shader_parameter/darkness = 0.6350000301625
+shader_parameter/tint_color = Color(0.5101786, 0.6774965, 0.7994901, 1)
+shader_parameter/tint_strength = 0.678000032205
+shader_parameter/saturation = 1.278000060705
+shader_parameter/blend_mode = 1
+
+[node name="NightOverlay" type="CanvasLayer" unique_id=1335708732]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1359604125]
+material = SubResource("ShaderMaterial_8lwyt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

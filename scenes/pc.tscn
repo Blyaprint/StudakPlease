@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://mpirf0780a6w"]
+
+[ext_resource type="Script" uid="uid://b0vm3o8fl15xs" path="res://scripts/pc_ui.gd" id="1_2wdt7"]
+[ext_resource type="Texture2D" uid="uid://bygc3eayn3diw" path="res://assets/sprites/GUI/radar_ico.png" id="2_heffb"]
+[ext_resource type="Texture2D" uid="uid://brpaln4e8u5vg" path="res://assets/sprites/GUI/db_ico.png" id="3_uuu8i"]
+[ext_resource type="Texture2D" uid="uid://dltwqvyncqx7m" path="res://assets/sprites/GUI/folder_ico.png" id="4_pghs8"]
+
+[node name="PC" type="CanvasLayer" unique_id=224578492]
+layer = 100
+
+[node name="PC_UI" type="Control" parent="." unique_id=1004044633]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2wdt7")
+
+[node name="BootScreen" type="ColorRect" parent="PC_UI" unique_id=755281789]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BootText" type="Label" parent="PC_UI/BootScreen" unique_id=1600702623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desktop" type="Control" parent="PC_UI" unique_id=832089303]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="PC_UI/Desktop" unique_id=924854720]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.30019426, 0.6157096, 0.58759916, 1)
+
+[node name="IconsContainer" type="HBoxContainer" parent="PC_UI/Desktop" unique_id=1414270239]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -536.0
+offset_bottom = -328.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IconRadar" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1474743792]
+layout_mode = 2
+texture_normal = ExtResource("2_heffb")
+
+[node name="IconDatabase" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1777161786]
+layout_mode = 2
+texture_normal = ExtResource("3_uuu8i")
+
+[node name="IconFolder" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1794787456]
+layout_mode = 2
+texture_normal = ExtResource("4_pghs8")
+
+[node name="WindowLayer" type="Control" parent="PC_UI/Desktop" unique_id=1461003576]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RadarWindow" type="Panel" parent="PC_UI/Desktop/WindowLayer" unique_id=618165389]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Window" type="ColorRect" parent="PC_UI/Desktop/WindowLayer/RadarWindow" unique_id=997093272]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.23031491, 0.23031494, 0.23031494, 1)
+
+[node name="Title" type="ColorRect" parent="PC_UI/Desktop/WindowLayer/RadarWindow" unique_id=1809227321]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleText" type="Label" parent="PC_UI/Desktop/WindowLayer/RadarWindow" unique_id=1500226485]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Радар"
+
+[node name="DatabaseWindow" type="Panel" parent="PC_UI/Desktop/WindowLayer" unique_id=679086151]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FolderWindow" type="Panel" parent="PC_UI/Desktop/WindowLayer" unique_id=305562571]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TaskBar" type="ColorRect" parent="PC_UI/Desktop" unique_id=740108363]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.16674927, 0.32192218, 0.3640194, 1)
+
+[node name="TaskbarLabel" type="Label" parent="PC_UI/Desktop/TaskBar" unique_id=18694447]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Мой компьютер"
+
+[connection signal="gui_input" from="PC_UI/Desktop/WindowLayer/RadarWindow" to="PC_UI" method="_on_window_gui_input"]
+[connection signal="gui_input" from="PC_UI/Desktop/WindowLayer/DatabaseWindow" to="PC_UI" method="_on_window_gui_input"]
+[connection signal="gui_input" from="PC_UI/Desktop/WindowLayer/FolderWindow" to="PC_UI" method="_on_window_gui_input"]

@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bckoudearq7ch"]
+
+[ext_resource type="Script" uid="uid://c5w6q4pqkufky" path="res://scripts/phone.gd" id="1_bhor5"]
+[ext_resource type="Texture2D" uid="uid://wwnaypluq5bs" path="res://assets/sprites/GUI/Dark/Phone/darkdeck_phone1.png" id="2_4m27t"]
+[ext_resource type="Texture2D" uid="uid://bvioeyclkuu7i" path="res://assets/sprites/GUI/Dark/Phone/darkdeck_phone2.png" id="3_yw6ph"]
+[ext_resource type="Texture2D" uid="uid://uogmy61w0t0g" path="res://assets/sprites/GUI/Dark/Phone/darkdeck_phone3.png" id="4_2ld37"]
+[ext_resource type="Texture2D" uid="uid://b1i0xad8hq0lx" path="res://assets/sprites/GUI/Dark/Phone/darkdeck_phone4.png" id="5_3n43k"]
+[ext_resource type="Texture2D" uid="uid://bfxy6lv3gvjw6" path="res://assets/sprites/GUI/Light/Phone/Lightdeck_phone1.png" id="6_ht7pp"]
+[ext_resource type="Texture2D" uid="uid://bwdyvndor8ql8" path="res://assets/sprites/GUI/Light/Phone/Lightdeck_phone2.png" id="7_p4heu"]
+[ext_resource type="Texture2D" uid="uid://cc0attwgyput" path="res://assets/sprites/GUI/Light/Phone/Lightdeck_phone3.png" id="8_ymsfi"]
+[ext_resource type="Texture2D" uid="uid://do220k4mjbbln" path="res://assets/sprites/GUI/Light/Phone/Lightdeck_phone4.png" id="9_y4opm"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vtha"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4m27t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yw6ph")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2ld37")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3n43k")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ht7pp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_p4heu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ymsfi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_y4opm")
+}],
+"loop": true,
+"name": &"light",
+"speed": 12.0
+}]
+
+[node name="Phone" type="Node2D" unique_id=802876417]
+texture_filter = 1
+script = ExtResource("1_bhor5")
+item_name = "Phone"
+anim_lit = "light"
+force_first_frame = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1066231196]
+sprite_frames = SubResource("SpriteFrames_6vtha")
+animation = &"dark"
+
+[node name="CollisionShape2D" type="Polygon2D" parent="." unique_id=1664422976]
+position = Vector2(51.875, 19.75)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-7.875, -11.75, 12.125, -11.75, 16.125, -9.75, 18.125, -7.75, 19.125, -1.75, 20.125, 3.25, 20.125, 7.25, 17.125, 10.25, 15.125, 11.25, 12.125, 13.25, -9.875, 13.25, -11.875, 11.25, -17.875, 11.25, -19.875, 8.25, -19.875, 6.25, -16.875, 2.25, -14.875, -0.75, -13.875, -3.75, -11.875, -5.75, -11.875, -7.75, -9.875, -10.75)
+
+[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=1682049429]
+
+[node name="Click" type="AudioStreamPlayer" parent="." unique_id=356477945]
