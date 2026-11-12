@@ -17,8 +17,13 @@ var last_clicked_icon: TextureButton = null
 # Для перетаскивания окон
 var dragging_window: Control = null
 var drag_offset: Vector2 = Vector2.ZERO
+var is_open: bool = false
+var boot_tween: Tween = null
 
 func _ready() -> void:
+	add_to_group("pc_ui")
+	visible = false
+
 	# Слой окон визуально находится над рабочим столом, но сам не перехватывает клики.
 	window_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
@@ -42,17 +47,40 @@ func _ready() -> void:
 			icon.mouse_filter = Control.MOUSE_FILTER_STOP
 			icon.button_down.connect(_on_icon_down.bind(icon))
 	
-	# Запускаем загрузку
+	# Компьютер включается только после взаимодействия с монитором.
 	desktop.visible = false
+	boot_screen.visible = false
+
+func open_pc() -> void:
+	if is_open:
+		return
+
+	is_open = true
+	visible = true
 	boot_screen.visible = true
+	desktop.visible = false
 	boot_text.text = "Загрузка системы..."
-	
-	var tween = create_tween()
-	tween.tween_interval(1.5)
-	tween.tween_callback(func():
+
+	if boot_tween and boot_tween.is_running():
+		boot_tween.kill()
+	boot_tween = create_tween()
+	boot_tween.tween_interval(1.5)
+	boot_tween.tween_callback(func():
+		if not is_open:
+			return
 		boot_screen.visible = false
 		desktop.visible = true
 	)
+
+func close_pc() -> void:
+	if not is_open:
+		return
+
+	is_open = false
+	if boot_tween and boot_tween.is_running():
+		boot_tween.kill()
+	dragging_window = null
+	visible = false
 
 # --- КЛИКИ ПО ИКОНКАМ ---
 func _on_icon_down(icon: TextureButton) -> void:
