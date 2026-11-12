@@ -19,12 +19,14 @@ var dragging_window: Control = null
 var drag_offset: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
-	# Прозрачный слой окон не должен перекрывать клики по иконкам рабочего стола.
+	# Слой окон визуально находится над рабочим столом, но сам не перехватывает клики.
 	window_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	# Скрываем окна на старте
 	for w in [win_radar, win_db, win_folder]:
-		if w: w.visible = false
+		if w:
+			w.visible = false
+			_setup_window(w)
 		
 	# Делаем фон прозрачным для кликов
 	$Desktop/Background.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -105,21 +107,48 @@ func _show_window(win: Control) -> void:
 	if win.position == Vector2.ZERO:
 		win.position = (size - win.size) / 2
 
-# --- ПЕРЕТАСКИВАНИЕ ОКОН ---
+# --- ПЕРЕТАСКИВАНИЕ И ЗАКРЫТИЕ ОКОН ---
+func _setup_window(win: Control) -> void:
+	var title_bar := win.get_node_or_null("Title") as Control
+	if title_bar:
+		title_bar.mouse_filter = Control.MOUSE_FILTER_STOP
+		title_bar.gui_input.connect(_on_window_gui_input.bind(win))
+
+	var title_text := win.get_node_or_null("Title/TitleText") as Control
+	if title_text:
+		title_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	# Кнопка закрытия создаётся для каждого окна.
+	var close_button := Button.new()
+	close_button.name = "CloseButton"
+	close_button.text = "×"
+	close_button.tooltip_text = "Закрыть"
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.custom_minimum_size = Vector2(19, 19)
+	close_button.position = Vector2(win.size.x - 22, 2)
+	close_button.size = Vector2(18, 18)
+	close_button.z_index = 3
+	win.add_child(close_button)
+	close_button.pressed.connect(_close_window.bind(win))
+
+func _close_window(win: Control) -> void:
+	if dragging_window == win:
+		dragging_window = null
+	win.visible = false
+
 func _on_window_gui_input(event: InputEvent, win: Control) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				dragging_window = win
-				drag_offset = win.get_global_mouse_position() - win.position
-				win.move_to_front()
-			else:
-				dragging_window = null
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+		dragging_window = win
+		drag_offset = get_local_mouse_position() - win.position
+		win.move_to_front()
+		accept_event()
 
 func _input(event: InputEvent) -> void:
-	if dragging_window and event is InputEventMouseMotion:
-		dragging_window.position = dragging_window.get_global_mouse_position() - drag_offset
-
+	if event is InputEventMouseMotion and dragging_window:
+		dragging_window.position = get_local_mouse_position() - drag_offset
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		dragging_window = null
 
 func _on_radar_window_gui_input(event: InputEvent) -> void:
 	pass # Replace with function body.
