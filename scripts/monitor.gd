@@ -1,4 +1,6 @@
 extends Interactable
 
 func _interact() -> void:
-	print("[Monitor] Смотрю на ЭЛТ-монитор. Камера холла (заглушка).")
+	var pc = get_tree().get_first_node_in_group("pc_ui")
+	if pc:
+		pc.open_pc()
