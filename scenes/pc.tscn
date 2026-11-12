@@ -90,7 +90,7 @@ ignore_texture_size = true
 tooltip_text = "Радар"
 
 [node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconRadar"]
-z_index = 1
+z_index = 0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,7 +102,7 @@ theme_override_styles/panel = SubResource("IconSelectionStyle")
 visible = false
 
 [node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconRadar"]
-z_index = 2
+z_index = 0
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -128,7 +128,7 @@ ignore_texture_size = true
 tooltip_text = "База данных"
 
 [node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconDatabase"]
-z_index = 1
+z_index = 0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -140,7 +140,7 @@ theme_override_styles/panel = SubResource("IconSelectionStyle")
 visible = false
 
 [node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconDatabase"]
-z_index = 2
+z_index = 0
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -166,7 +166,7 @@ ignore_texture_size = true
 tooltip_text = "Проводник"
 
 [node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconFolder"]
-z_index = 1
+z_index = 0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,7 +178,7 @@ theme_override_styles/panel = SubResource("IconSelectionStyle")
 visible = false
 
 [node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconFolder"]
-z_index = 2
+z_index = 0
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
