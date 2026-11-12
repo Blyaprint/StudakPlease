@@ -139,10 +139,10 @@ func _close_window(win: Control) -> void:
 func _on_window_gui_input(event: InputEvent, win: Control) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-		dragging_window = win
-		drag_offset = get_local_mouse_position() - win.position
-		win.move_to_front()
-		accept_event()
+			dragging_window = win
+			drag_offset = get_local_mouse_position() - win.position
+			win.move_to_front()
+			accept_event()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and dragging_window:
