@@ -114,7 +114,7 @@ func _setup_window(win: Control) -> void:
 		title_bar.mouse_filter = Control.MOUSE_FILTER_STOP
 		title_bar.gui_input.connect(_on_window_gui_input.bind(win))
 
-	var title_text := win.get_node_or_null("Title/TitleText") as Control
+	var title_text := win.get_node_or_null("TitleText") as Control
 	if title_text:
 		title_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
