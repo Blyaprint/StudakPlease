@@ -19,6 +19,9 @@ var dragging_window: Control = null
 var drag_offset: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	# Прозрачный слой окон не должен перекрывать клики по иконкам рабочего стола.
+	window_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 	# Скрываем окна на старте
 	for w in [win_radar, win_db, win_folder]:
 		if w: w.visible = false
