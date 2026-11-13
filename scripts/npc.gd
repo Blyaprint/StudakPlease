@@ -197,7 +197,12 @@ func _set_route(new_route: Route) -> void:
 		target_pos = exit_right_pos
 		target_scale = exit_scale
 
-	var duration = position.distance_to(target_pos) / maxf(speed, 0.001)
+	var duration: float
+	if _route == Route.TO_DESK:
+		# Y задаёт глубину сцены и не должен удлинять путь к игроку.
+		duration = absf(target_pos.x - position.x) / maxf(speed, 0.001)
+	else:
+		duration = position.distance_to(target_pos) / maxf(speed, 0.001)
 	_tween = create_tween()
 	_tween.set_parallel(true)
 	_tween.tween_property(self, "position", target_pos, duration)
