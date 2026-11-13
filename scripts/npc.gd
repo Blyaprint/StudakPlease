@@ -57,6 +57,8 @@ var _is_walking: bool = false
 var _base_sprite_pos: Vector2 = Vector2.ZERO
 var _walk_time: float = 0.0
 
+@onready var _footsteps: AudioStreamPlayer2D = $Footsteps
+
 func _ready() -> void:
 	add_to_group("npc")
 	add_to_group("visitor")
@@ -98,6 +100,14 @@ func _process(delta: float) -> void:
 
 	$Sprite.rotation_degrees = wave * rock_angle * walk_amplitude
 	$Sprite.position.x = _base_sprite_pos.x + (wave * rock_shift * walk_amplitude)
+
+func _start_footsteps() -> void:
+	if not _footsteps.playing:
+		_footsteps.play()
+
+func _stop_footsteps() -> void:
+	if _footsteps.playing:
+		_footsteps.stop()
 
 func _reset_sprite_transform() -> void:
 	_is_walking = false
@@ -169,6 +179,7 @@ func _set_route(new_route: Route) -> void:
 		return
 
 	_route = new_route
+	_start_footsteps()
 	_walk_amplitude_multiplier = passing_walk_amplitude if _route == Route.PASSING else 1.0
 	_is_walking = true
 	if $Sprite.sprite_frames and $Sprite.sprite_frames.has_animation("walk"):
@@ -209,6 +220,7 @@ func walk_to_desk() -> void:
 	_set_route(Route.TO_DESK)
 
 func _on_arrived() -> void:
+	_stop_footsteps()
 	has_arrived = true
 	_route_locked = true
 	_reset_sprite_transform()
@@ -221,6 +233,7 @@ func _on_arrived() -> void:
 		dialog_panel.visible = true
 
 func _on_passed() -> void:
+	_stop_footsteps()
 	is_leaving = true
 	_is_walking = false
 	if _reveal_tween and not _reveal_completed:
