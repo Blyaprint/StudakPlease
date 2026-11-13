@@ -26,7 +26,8 @@ enum Route {
 
 @export_group("Эффект Тени (Выход из темноты)")
 @export var shadow_color: Color = Color(0.0, 0.0, 0.0, 1.0)
-@export var reveal_time: float = 1.0
+@export var reveal_start_distance: float = 60.0
+@export var reveal_duration: float = 1.0
 @export var fade_to_shadow_time: float = 0.5
 
 @export_group("Эффект 'переваливания'")
@@ -39,6 +40,7 @@ enum Route {
 var _tween: Tween
 var _reveal_tween: Tween
 var _reveal_progress: float = 0.0
+var _reveal_started: bool = false
 var _reveal_completed: bool = false
 var _is_light_enabled: bool = false
 var _route: Route = Route.NONE
@@ -72,12 +74,10 @@ func _ready() -> void:
 	GameState.light_mode_changed.connect(_on_light_mode_changed)
 	_on_light_mode_changed(GameState.is_lit_mode)
 
-	_reveal_tween = create_tween()
-	_reveal_tween.tween_method(_set_reveal_progress, _reveal_progress, 1.0, 0.5).set_delay(reveal_time)
-	_reveal_tween.finished.connect(_on_reveal_finished)
 
 func _process(delta: float) -> void:
 	_try_lock_route()
+	_try_start_reveal()
 
 	if not _is_walking or $Sprite == null:
 		return
@@ -120,6 +120,22 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 func _set_reveal_progress(progress: float) -> void:
 	_reveal_progress = progress
 	_apply_reveal_color()
+
+func _try_start_reveal() -> void:
+	if _reveal_started or _route != Route.TO_DESK or is_leaving:
+		return
+	if position.distance_to(wait_pos) > reveal_start_distance:
+		return
+
+	_reveal_started = true
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_method(
+		_set_reveal_progress,
+		_reveal_progress,
+		1.0,
+		maxf(reveal_duration, 0.001)
+	)
+	_reveal_tween.finished.connect(_on_reveal_finished)
 
 func _apply_reveal_color() -> void:
 	var alpha = modulate.a
