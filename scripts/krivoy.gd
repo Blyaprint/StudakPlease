@@ -101,6 +101,9 @@ var _walk_cycle_speed_multiplier: float = 1.0
 var _base_sprite_pos: Vector2 = Vector2.ZERO
 
 @onready var _sprite: Sprite2D = $Sprite
+@onready var _footsteps: AudioStreamPlayer2D = $Footsteps
+@onready var fast_steps: AudioStreamWAV = preload("res://assets/audio/sfx/fast_shagi.wav")
+@onready var superfast_steps: AudioStreamWAV = preload("res://assets/audio/sfx/superfast_shagi.wav")
 
 
 func _ready() -> void:
@@ -182,6 +185,16 @@ func _update_approach_run() -> void:
 	_sprite.rotation_degrees = run_forward_lean + side * run_side_lean
 
 
+func _start_footsteps(stream: AudioStreamWAV) -> void:
+	if _footsteps.stream != stream:
+		_footsteps.stream = stream
+	if not _footsteps.playing:
+		_footsteps.play()
+
+func _stop_footsteps() -> void:
+	if _footsteps.playing:
+		_footsteps.stop()
+
 func _reset_sprite_transform() -> void:
 	_is_walking = false
 	_walk_amplitude_multiplier = 1.0
@@ -255,6 +268,7 @@ func _set_route(new_route: Route) -> void:
 		return
 
 	_route = new_route
+	_start_footsteps(superfast_steps if _route == Route.TO_DESK else fast_steps)
 	_is_walking = true
 
 	var target_pos: Vector2
@@ -294,6 +308,7 @@ func _set_route(new_route: Route) -> void:
 
 
 func _on_arrived() -> void:
+	_stop_footsteps()
 	has_arrived = true
 	_route_locked = true
 	_state = State.WAITING_FOR_LIGHT
@@ -421,6 +436,7 @@ func _begin_attack() -> void:
 
 
 func _on_passed() -> void:
+	_stop_footsteps()
 	_state = State.PASSED
 	queue_free()
 
@@ -435,6 +451,7 @@ func _begin_departure_pause() -> void:
 func _start_departure() -> void:
 	_state = State.DEPARTING
 	_is_walking = true
+	_start_footsteps(fast_steps)
 	_walk_amplitude_multiplier = 1.0
 	_walk_cycle_speed_multiplier = 1.0
 	_walk_time = 0.0
@@ -452,4 +469,9 @@ func _start_departure() -> void:
 	_tween.tween_property(self, "position", exit_left_pos, duration)
 	_tween.tween_property(self, "scale", Vector2.ONE * exit_scale, duration)
 	_tween.tween_property(self, "modulate:a", 0.0, fade_duration).set_delay(fade_delay)
-	_tween.finished.connect(queue_free)
+	_tween.finished.connect(_on_departure_finished)
+
+
+func _on_departure_finished() -> void:
+	_stop_footsteps()
+	queue_free()
