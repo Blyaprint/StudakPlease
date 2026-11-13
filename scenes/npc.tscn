@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://djgmfl55nafbk"]
 
 [ext_resource type="Script" uid="uid://c7pxm777rxh2j" path="res://scripts/npc.gd" id="1_abqhh"]
-[ext_resource type="Texture2D" uid="uid://ffewhihyorne" path="res://assets/sprites/NPCs/Kostya_light4.png" id="2_abqhh"]
+[ext_resource type="Texture2D" uid="uid://jyr7lb14ah0x" path="res://assets/sprites/NPCs/Krivoy.png" id="2_abqhh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_abqhh"]
 animations = [{
@@ -24,7 +24,7 @@ layer = 7
 position = Vector2(-2, 4)
 sprite_frames = SubResource("SpriteFrames_abqhh")
 autoplay = "default"
-frame_progress = 0.43333995
+frame_progress = 1.0
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1702913178]
 visible = false
