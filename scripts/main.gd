@@ -12,6 +12,7 @@ const KRIVOY_SCENE: PackedScene = preload("res://scenes/krivoy.tscn")
 @export_range(0.1, 10.0, 0.1) var visitor_approach_duration: float = 2.4
 @export_range(0.1, 3.0, 0.05) var visitor_approach_min_speed_multiplier: float = 0.8
 @export_range(0.1, 3.0, 0.05) var visitor_approach_max_speed_multiplier: float = 1.2
+@export_range(0.5, 3.0, 0.05) var krivoy_approach_speed_multiplier: float = 1.0
 @export var visitor_spawn_pos: Vector2 = Vector2(28.0, 150.0)
 @export var visitor_wait_pos: Vector2 = Vector2(208.0, 180.0)
 @export var visitor_exit_right_pos: Vector2 = Vector2(558.0, 150.0)
@@ -87,6 +88,8 @@ func _configure_visitor(visitor: Node2D) -> void:
 	visitor.set("approach_duration", visitor_approach_duration)
 	visitor.set("approach_min_speed_multiplier", visitor_approach_min_speed_multiplier)
 	visitor.set("approach_max_speed_multiplier", visitor_approach_max_speed_multiplier)
+	if visitor.has_signal("game_over_requested"):
+		visitor.set("approach_movement_speed_multiplier", krivoy_approach_speed_multiplier)
 	visitor.set("spawn_pos", visitor_spawn_pos)
 	visitor.set("wait_pos", visitor_wait_pos)
 	visitor.set("exit_right_pos", visitor_exit_right_pos)
