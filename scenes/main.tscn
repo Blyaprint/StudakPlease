@@ -241,5 +241,7 @@ spawn_scale = 0.5
 wait_scale = 0.8
 exit_scale = 0.5
 reveal_time = 1.5
+desk_route_lock_x = 35.0
+pass_route_lock_x = 500.0
 fade_to_shadow_time = 0.7
 squash_amount = 0.0
