@@ -150,11 +150,7 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 
 	match _state:
 		State.REVEALING:
-			if _reveal_tween:
-				if is_lit:
-					_reveal_tween.play()
-				else:
-					_reveal_tween.pause()
+			# Прогресс проявления, как у обычного NPC, не останавливается в темноте.
 			return
 		State.ATTACKING:
 			# Повторное включение света сбрасывает только таймер защиты.
