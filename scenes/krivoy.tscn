@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8xerhfkoesyu" path="res://scripts/krivoy.gd" id="1_krivoy"]
 [ext_resource type="Texture2D" uid="uid://jyr7lb14ah0x" path="res://assets/sprites/NPCs/Krivoy.png" id="2_krivoy"]
-[ext_resource type="AudioStream" path="res://assets/audio/sfx/fast_shagi.wav" id="3_fast_steps"]
-[ext_resource type="AudioStream" path="res://assets/audio/sfx/superfast_shagi.wav" id="4_superfast_steps"]
+[ext_resource type="AudioStream" uid="uid://b3udjeurwqig4" path="res://assets/audio/sfx/fast_shagi.wav" id="3_fast_steps"]
 
 [node name="Krivoy" type="Node2D" unique_id=198743858]
 script = ExtResource("1_krivoy")
@@ -15,5 +14,5 @@ reveal_duration = 0.1
 position = Vector2(-2, 12)
 texture = ExtResource("2_krivoy")
 
-[node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="." unique_id=126827598]
 stream = ExtResource("3_fast_steps")

@@ -103,7 +103,7 @@ var _base_sprite_pos: Vector2 = Vector2.ZERO
 @onready var _sprite: Sprite2D = $Sprite
 @onready var _footsteps: AudioStreamPlayer2D = $Footsteps
 @onready var fast_steps: AudioStreamWAV = preload("res://assets/audio/sfx/fast_shagi.wav")
-@onready var superfast_steps: AudioStreamWAV = preload("res://assets/audio/sfx/superfast_shagi.wav")
+@onready var superfast_steps: AudioStreamWAV = preload("res://assets/audio/sfx/superfast_shagi_normvolume.wav")
 
 
 func _ready() -> void:
