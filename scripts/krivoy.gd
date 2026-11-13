@@ -359,7 +359,9 @@ func _start_arrival_scare() -> void:
 		return
 
 	_state = State.SCARING
-	_scare_recognized = false
+	# Распознавание, тряска и первое увеличение начинаются в один момент прибытия.
+	_scare_recognized = true
+	screen_shake_requested.emit(scare_shake_duration, scare_shake_strength)
 	_scare_tween = create_tween()
 	_scare_tween.tween_property(
 		_sprite,
@@ -373,8 +375,7 @@ func _start_arrival_scare() -> void:
 		Vector2.ONE * scare_lunge_scale,
 		maxf(scare_lunge_duration, 0.001)
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	_scare_tween.chain().tween_callback(_on_scare_impact)
-	_scare_tween.tween_property(
+	_scare_tween.chain().tween_property(
 		_sprite,
 		"position",
 		_base_sprite_pos + Vector2(0.0, 16.0),
@@ -387,11 +388,6 @@ func _start_arrival_scare() -> void:
 		maxf(scare_loom_duration, 0.001)
 	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	_scare_tween.tween_callback(_on_scare_finished)
-
-
-func _on_scare_impact() -> void:
-	_scare_recognized = true
-	screen_shake_requested.emit(scare_shake_duration, scare_shake_strength)
 
 
 func _on_scare_finished() -> void:
