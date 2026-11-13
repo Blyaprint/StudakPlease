@@ -150,7 +150,7 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 
 	match _state:
 		State.REVEALING:
-			if _reveal_tween and _reveal_tween.is_running():
+			if _reveal_tween:
 				if is_lit:
 					_reveal_tween.play()
 				else:
@@ -240,6 +240,10 @@ func _on_arrived() -> void:
 
 func _start_reveal() -> void:
 	if _state != State.WAITING_FOR_LIGHT or not _is_light_enabled:
+		return
+
+	if _reveal_progress >= 1.0:
+		_on_reveal_finished()
 		return
 
 	_state = State.REVEALING
