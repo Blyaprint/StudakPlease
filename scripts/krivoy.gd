@@ -1,6 +1,8 @@
 extends Node2D
 
 signal game_over_requested
+signal screen_shake_requested(duration: float, strength: float)
+signal screen_shake_cancelled
 
 enum Route {
 	NONE,
@@ -12,6 +14,7 @@ enum State {
 	MOVING,
 	WAITING_FOR_LIGHT,
 	REVEALING,
+	SCARING,
 	ATTACKING,
 	DEPARTURE_PAUSE,
 	DEPARTING,
@@ -45,6 +48,14 @@ enum State {
 @export var reveal_start_distance: float = 60.0
 @export var reveal_duration: float = 1.5
 
+@export_group("Пугающее появление")
+@export var scare_lunge_duration: float = 0.16
+@export var scare_loom_duration: float = 0.28
+@export var scare_lunge_scale: float = 1.35
+@export var scare_loom_scale: float = 1.65
+@export var scare_shake_duration: float = 0.3
+@export var scare_shake_strength: float = 4.0
+
 @export_group("Атака и защита")
 @export var attack_duration: float = 3.0
 @export var defense_duration: float = 5.0
@@ -74,6 +85,8 @@ var _is_walking: bool = false
 
 var _tween: Tween
 var _reveal_tween: Tween
+var _scare_tween: Tween
+var _scare_recognized: bool = false
 var _reveal_progress: float = 0.0
 var _reveal_started: bool = false
 var _attack_remaining: float = 0.0
@@ -186,6 +199,20 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 		State.REVEALING:
 			# Прогресс проявления, как у обычного NPC, не останавливается в темноте.
 			return
+		State.SCARING:
+			if not is_lit:
+				if _scare_recognized:
+					# После начала тряски игрок уже распознал аномалию:
+					# отменяем остаток появления и сразу запускаем защиту.
+					_cancel_scare()
+					_begin_defense_from_scare()
+				elif _scare_tween and _scare_tween.is_running():
+					# До момента распознавания эффект можно продолжить после включения света.
+					_scare_tween.pause()
+			else:
+				if _scare_tween and _scare_tween.is_running() and _scare_tween.is_paused():
+					_scare_tween.play()
+			return
 		State.ATTACKING:
 			# Повторное включение света сбрасывает только таймер защиты.
 			_defense_remaining = defense_duration
@@ -193,7 +220,7 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 		State.WAITING_FOR_LIGHT:
 			if is_lit:
 				if _reveal_progress >= 1.0:
-					_begin_attack()
+					_start_arrival_scare()
 				else:
 					_start_reveal()
 			return
@@ -268,7 +295,7 @@ func _on_arrived() -> void:
 	_apply_reveal_color()
 
 	if _reveal_progress >= 1.0 and _is_light_enabled:
-		_begin_attack()
+		_start_arrival_scare()
 
 
 func _try_start_reveal() -> void:
@@ -317,9 +344,74 @@ func _on_reveal_finished() -> void:
 	_apply_reveal_color()
 	if has_arrived:
 		if _is_light_enabled:
-			_begin_attack()
+			_start_arrival_scare()
 		else:
 			_state = State.WAITING_FOR_LIGHT
+
+
+func _start_arrival_scare() -> void:
+	if not has_arrived or not _is_light_enabled or _reveal_progress < 1.0:
+		return
+	if _state in [State.SCARING, State.ATTACKING, State.DEPARTURE_PAUSE, State.DEPARTING, State.PASSED, State.GAME_OVER]:
+		return
+
+	_state = State.SCARING
+	_scare_recognized = false
+	_scare_tween = create_tween()
+	_scare_tween.tween_property(
+		_sprite,
+		"position",
+		_base_sprite_pos + Vector2(0.0, 9.0),
+		maxf(scare_lunge_duration, 0.001)
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_scare_tween.parallel().tween_property(
+		_sprite,
+		"scale",
+		Vector2.ONE * scare_lunge_scale,
+		maxf(scare_lunge_duration, 0.001)
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_scare_tween.chain().tween_callback(_on_scare_impact)
+	_scare_tween.tween_property(
+		_sprite,
+		"position",
+		_base_sprite_pos + Vector2(0.0, 16.0),
+		maxf(scare_loom_duration, 0.001)
+	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	_scare_tween.parallel().tween_property(
+		_sprite,
+		"scale",
+		Vector2.ONE * scare_loom_scale,
+		maxf(scare_loom_duration, 0.001)
+	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	_scare_tween.tween_callback(_on_scare_finished)
+
+
+func _on_scare_impact() -> void:
+	_scare_recognized = true
+	screen_shake_requested.emit(scare_shake_duration, scare_shake_strength)
+
+
+func _on_scare_finished() -> void:
+	_scare_tween = null
+	if _is_light_enabled:
+		_begin_attack()
+	else:
+		_state = State.WAITING_FOR_LIGHT
+
+
+func _cancel_scare() -> void:
+	if _scare_tween and _scare_tween.is_running():
+		_scare_tween.kill()
+	_scare_tween = null
+	screen_shake_cancelled.emit()
+	_reset_sprite_transform()
+
+
+func _begin_defense_from_scare() -> void:
+	# Свет уже выключен в момент распознавания: сразу включаем обычную фазу защиты.
+	_state = State.ATTACKING
+	_attack_remaining = attack_duration
+	_defense_remaining = defense_duration
 
 
 func _begin_attack() -> void:
