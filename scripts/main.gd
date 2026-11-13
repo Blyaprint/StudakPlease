@@ -28,6 +28,7 @@ var _active_visitor: Node2D
 var _game_over: bool = false
 var _screen_shake_tween: Tween
 var _screen_shake_origin: Vector2 = Vector2.ZERO
+var _screen_shake_layer_origins: Dictionary = {}
 
 
 func _ready() -> void:
@@ -106,7 +107,7 @@ func _on_active_visitor_exited() -> void:
 
 func _start_screen_shake(duration: float, strength: float) -> void:
 	if _screen_shake_tween and _screen_shake_tween.is_running():
-		_screen_shake_tween.kill()
+		_stop_screen_shake()
 	position = _screen_shake_origin
 	_screen_shake_tween = create_tween()
 	_screen_shake_tween.tween_method(
