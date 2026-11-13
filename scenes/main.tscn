@@ -13,7 +13,6 @@
 [ext_resource type="Shader" uid="uid://c2n8yt5qb8xlm" path="res://assets/shaders/screen_fx.gdshader" id="5_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://ddd2bvhe147yy" path="res://assets/sprites/GUI/Light/Back/back_new_anim4.png" id="5_trceg"]
 [ext_resource type="Script" uid="uid://ruxe60kd0gby" path="res://scripts/environment_anim.gd" id="10_trceg"]
-[ext_resource type="PackedScene" uid="uid://djgmfl55nafbk" path="res://scenes/npc.tscn" id="14_a8y0u"]
 [ext_resource type="FontFile" uid="uid://bak8x3dh3intw" path="res://assets/fonts/zx_spectrum-7.ttf" id="14_muem4"]
 [ext_resource type="Texture2D" uid="uid://btbbp2wj5y1a5" path="res://assets/sprites/GUI/oneblock.png" id="15_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://mpirf0780a6w" path="res://scenes/pc.tscn" id="17_muem4"]
@@ -228,21 +227,3 @@ texture = ExtResource("15_jkv2x")
 
 [node name="PC" parent="." unique_id=224578492 instance=ExtResource("17_muem4")]
 visible = false
-
-[node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
-position = Vector2(-153.99994, 129.00002)
-scale = Vector2(1.4, 1.4)
-speed = 75.0
-spawn_pos = Vector2(28, 150)
-wait_pos = Vector2(208, 180)
-exit_right_pos = Vector2(558, 150)
-exit_left_pos = Vector2(-180, 150)
-spawn_scale = 0.5
-wait_scale = 0.8
-exit_scale = 0.5
-reveal_start_distance = 60.0
-reveal_duration = 1.5
-desk_route_lock_x = 35.0
-pass_route_lock_x = 400.0
-fade_to_shadow_time = 0.7
-squash_amount = 0.0
