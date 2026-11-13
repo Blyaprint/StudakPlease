@@ -24,6 +24,7 @@ enum State {
 
 @export_group("Настройки движения")
 @export var speed: float = 75.0
+var approach_duration: float = 2.4
 @export var approach_speed_multiplier: float = 2.0
 @export var approach_walk_amplitude: float = 1.8
 @export var passing_walk_amplitude: float = 0.5
@@ -278,8 +279,8 @@ func _set_route(new_route: Route) -> void:
 
 	if _route == Route.TO_DESK:
 		_walk_amplitude_multiplier = approach_walk_amplitude
+		# Множитель ускоряет прыжковый цикл, но не сокращает общее время подхода.
 		_walk_cycle_speed_multiplier = approach_speed_multiplier
-		movement_speed *= approach_speed_multiplier
 		target_pos = wait_pos
 		target_scale = wait_scale
 	else:
@@ -293,8 +294,8 @@ func _set_route(new_route: Route) -> void:
 
 	var duration: float
 	if _route == Route.TO_DESK:
-		# Y задаёт глубину сцены и не должен удлинять путь к игроку.
-		duration = absf(target_pos.x - position.x) / maxf(movement_speed, 0.001)
+		# Общее время подхода задаётся в Inspector главной сцены.
+		duration = maxf(approach_duration, 0.001)
 	else:
 		duration = position.distance_to(target_pos) / maxf(movement_speed, 0.001)
 	_tween = create_tween()
