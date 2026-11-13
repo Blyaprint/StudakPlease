@@ -187,6 +187,7 @@ func _update_approach_run() -> void:
 
 func _start_footsteps(stream: AudioStreamWAV) -> void:
 	if _footsteps.stream != stream:
+		_footsteps.stop()
 		_footsteps.stream = stream
 	if not _footsteps.playing:
 		_footsteps.play()
