@@ -8,6 +8,7 @@ enum Route {
 
 @export_group("Настройки движения")
 @export var speed: float = 150.0
+var approach_duration: float = 2.4
 
 @export_group("Точки маршрута (Координаты)")
 @export var spawn_pos: Vector2 = Vector2(-100, 40)
@@ -199,8 +200,8 @@ func _set_route(new_route: Route) -> void:
 
 	var duration: float
 	if _route == Route.TO_DESK:
-		# Y задаёт глубину сцены и не должен удлинять путь к игроку.
-		duration = absf(target_pos.x - position.x) / maxf(speed, 0.001)
+		# Общее время подхода задаётся в Inspector главной сцены.
+		duration = maxf(approach_duration, 0.001)
 	else:
 		duration = position.distance_to(target_pos) / maxf(speed, 0.001)
 	_tween = create_tween()
@@ -209,7 +210,7 @@ func _set_route(new_route: Route) -> void:
 	_tween.tween_property(self, "scale", Vector2(target_scale, target_scale), duration)
 
 	if _route == Route.TO_DESK:
-		_tween.tween_property(self, "modulate:a", 1.0, 0.3)
+		_tween.tween_property(self, "modulate:a", 1.0, minf(0.3, duration))
 		_tween.finished.connect(_on_arrived)
 	else:
 		# Посетитель, проходящий мимо, виден с самого начала как тёмный силуэт.
