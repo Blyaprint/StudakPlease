@@ -5,16 +5,10 @@
 
 [node name="Krivoy" type="Node2D" unique_id=198743858]
 script = ExtResource("1_krivoy")
-approach_speed_multiplier = 3.0
 passing_walk_amplitude = 4.0
 reveal_start_distance = 600.0
 reveal_duration = 0.1
-rock_shift = 0.0
-run_jump_height = 15.0
-run_cycle_speed_multiplier = 1.0
-run_forward_lean = 0.0
-run_side_lean = 15.0
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=157904190]
-position = Vector2(-2, 4)
+position = Vector2(-2, 12)
 texture = ExtResource("2_krivoy")
