@@ -70,6 +70,7 @@ var _is_walking: bool = false
 var _tween: Tween
 var _reveal_tween: Tween
 var _reveal_progress: float = 0.0
+var _reveal_started: bool = false
 var _attack_remaining: float = 0.0
 var _defense_remaining: float = 0.0
 var _departure_pause_remaining: float = 0.0
@@ -99,6 +100,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_try_lock_route()
+	_try_start_reveal()
 
 	if _is_walking:
 		_update_walk(delta)
@@ -160,7 +162,10 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 			return
 		State.WAITING_FOR_LIGHT:
 			if is_lit:
-				_start_reveal()
+				if _reveal_progress >= 1.0:
+					_begin_attack()
+				else:
+					_start_reveal()
 			return
 		State.DEPARTURE_PAUSE, State.DEPARTING, State.PASSED, State.GAME_OVER:
 			return
@@ -232,19 +237,25 @@ func _on_arrived() -> void:
 	_reset_sprite_transform()
 	_apply_reveal_color()
 
-	if _is_light_enabled:
-		_start_reveal()
+	if _reveal_progress >= 1.0 and _is_light_enabled:
+		_begin_attack()
+
+
+func _try_start_reveal() -> void:
+	if _route != Route.TO_DESK or _reveal_started or is_leaving:
+		return
+	if position.distance_to(wait_pos) > reveal_start_distance:
+		return
+	_start_reveal()
 
 
 func _start_reveal() -> void:
-	if _state != State.WAITING_FOR_LIGHT or not _is_light_enabled:
+	if _reveal_started or _route != Route.TO_DESK or _state in [State.DEPARTURE_PAUSE, State.DEPARTING, State.PASSED, State.GAME_OVER]:
 		return
 
-	if _reveal_progress >= 1.0:
-		_on_reveal_finished()
-		return
-
-	_state = State.REVEALING
+	_reveal_started = true
+	if has_arrived:
+		_state = State.REVEALING
 	_reveal_tween = create_tween()
 	_reveal_tween.tween_method(
 		_set_reveal_progress,
@@ -274,10 +285,16 @@ func _apply_reveal_color() -> void:
 func _on_reveal_finished() -> void:
 	_reveal_progress = 1.0
 	_apply_reveal_color()
-	if not _is_light_enabled:
-		_state = State.WAITING_FOR_LIGHT
-		return
+	if has_arrived:
+		if _is_light_enabled:
+			_begin_attack()
+		else:
+			_state = State.WAITING_FOR_LIGHT
 
+
+func _begin_attack() -> void:
+	if not has_arrived or not _is_light_enabled or _state == State.ATTACKING:
+		return
 	_state = State.ATTACKING
 	_attack_remaining = attack_duration
 	_defense_remaining = defense_duration
