@@ -1,5 +1,11 @@
 extends Node2D
 
+enum Route {
+	NONE,
+	TO_DESK,
+	PASSING
+}
+
 @export_group("Настройки движения")
 @export var speed: float = 150.0
 
@@ -8,6 +14,10 @@ extends Node2D
 @export var wait_pos: Vector2 = Vector2(200, 100)
 @export var exit_right_pos: Vector2 = Vector2(800, 40)
 @export var exit_left_pos: Vector2 = Vector2(-100, 100)
+
+@export_group("Пороги фиксации маршрута")
+@export var desk_route_lock_x: float = 35.0
+@export var pass_route_lock_x: float = 500.0
 
 @export_group("Настройки перспективы (Размеры)")
 @export var spawn_scale: float = 0.4 # Размер при появлении
@@ -31,6 +41,8 @@ var _reveal_tween: Tween
 var _reveal_progress: float = 0.0
 var _reveal_completed: bool = false
 var _is_light_enabled: bool = false
+var _route: Route = Route.NONE
+var _route_locked: bool = false
 var dialog_panel: Control = null
 var dialog_label: Label = null
 
@@ -59,9 +71,14 @@ func _ready() -> void:
 
 	GameState.light_mode_changed.connect(_on_light_mode_changed)
 	_on_light_mode_changed(GameState.is_lit_mode)
-	walk_to_desk()
+
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_method(_set_reveal_progress, _reveal_progress, 1.0, 0.5).set_delay(reveal_time)
+	_reveal_tween.finished.connect(_on_reveal_finished)
 
 func _process(delta: float) -> void:
+	_try_lock_route()
+
 	if not _is_walking or $Sprite == null:
 		return
 
@@ -92,6 +109,14 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 
 	_apply_reveal_color()
 
+	# Сначала проверяем порог текущего маршрута: сигнал света не должен
+	# успеть переключить NPC после фактического пересечения порога.
+	_try_lock_route()
+	if has_arrived or _route_locked:
+		return
+
+	_set_route(Route.TO_DESK if is_lit else Route.PASSING)
+
 func _set_reveal_progress(progress: float) -> void:
 	_reveal_progress = progress
 	_apply_reveal_color()
@@ -109,30 +134,58 @@ func _apply_reveal_color() -> void:
 func _on_reveal_finished() -> void:
 	_reveal_completed = true
 
-# --- ПРИХОД К СТОЙКЕ ---
-func walk_to_desk() -> void:
+func _try_lock_route() -> void:
+	if _route_locked:
+		return
+
+	if _route == Route.TO_DESK and position.x >= desk_route_lock_x:
+		_route_locked = true
+	elif _route == Route.PASSING and position.x >= pass_route_lock_x:
+		_route_locked = true
+
+func _set_route(new_route: Route) -> void:
+	if _route_locked or _route == new_route:
+		return
+
+	_route = new_route
 	_is_walking = true
 	if $Sprite.sprite_frames and $Sprite.sprite_frames.has_animation("walk"):
 		$Sprite.play("walk")
 
+	if _tween and _tween.is_running():
+		_tween.kill()
+
+	var target_pos: Vector2
+	var target_scale: float
+	if _route == Route.TO_DESK:
+		target_pos = wait_pos
+		target_scale = wait_scale
+	else:
+		target_pos = exit_right_pos
+		target_scale = exit_scale
+
+	var duration = position.distance_to(target_pos) / maxf(speed, 0.001)
 	_tween = create_tween()
 	_tween.set_parallel(true)
+	_tween.tween_property(self, "position", target_pos, duration)
+	_tween.tween_property(self, "scale", Vector2(target_scale, target_scale), duration)
 
-	var distance = position.distance_to(wait_pos)
-	var duration = distance / speed
+	if _route == Route.TO_DESK:
+		_tween.tween_property(self, "modulate:a", 1.0, 0.3)
+		_tween.finished.connect(_on_arrived)
+	else:
+		_tween.tween_property(self, "modulate:a", 0.0, duration * 0.5).set_delay(duration * 0.5)
+		_tween.finished.connect(_on_passed)
 
-	_tween.tween_property(self, "position", wait_pos, duration)
-	_tween.tween_property(self, "scale", Vector2(wait_scale, wait_scale), duration)
-	_tween.tween_property(self, "modulate:a", 1.0, 0.3)
+	_try_lock_route()
 
-	_reveal_tween = create_tween()
-	_reveal_tween.tween_method(_set_reveal_progress, _reveal_progress, 1.0, 0.5).set_delay(reveal_time)
-	_reveal_tween.finished.connect(_on_reveal_finished)
-
-	_tween.finished.connect(_on_arrived)
+# Оставлено как точка входа для явного запуска маршрута к стойке.
+func walk_to_desk() -> void:
+	_set_route(Route.TO_DESK)
 
 func _on_arrived() -> void:
 	has_arrived = true
+	_route_locked = true
 	_reset_sprite_transform()
 
 	if $Sprite.sprite_frames and $Sprite.sprite_frames.has_animation("idle"):
@@ -141,6 +194,14 @@ func _on_arrived() -> void:
 	if dialog_panel and dialog_label:
 		dialog_label.text = "Здравствуйте. Вот мой пропуск."
 		dialog_panel.visible = true
+
+func _on_passed() -> void:
+	is_leaving = true
+	_is_walking = false
+	if _reveal_tween and not _reveal_completed:
+		_reveal_tween.kill()
+		_reveal_completed = true
+	queue_free()
 
 # --- УХОД ---
 func allow_pass() -> void:
