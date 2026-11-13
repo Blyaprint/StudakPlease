@@ -29,7 +29,6 @@ extends Node2D
 var _tween: Tween
 var _reveal_tween: Tween
 var _reveal_progress: float = 0.0
-var _reveal_is_paused: bool = false
 var _reveal_completed: bool = false
 var _is_light_enabled: bool = false
 var dialog_panel: Control = null
@@ -93,16 +92,6 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 
 	_apply_reveal_color()
 
-	if _reveal_tween == null or _reveal_completed:
-		return
-
-	if is_lit and _reveal_is_paused:
-		_reveal_tween.play()
-		_reveal_is_paused = false
-	elif not is_lit and not _reveal_is_paused:
-		_reveal_tween.pause()
-		_reveal_is_paused = true
-
 func _set_reveal_progress(progress: float) -> void:
 	_reveal_progress = progress
 	_apply_reveal_color()
@@ -119,7 +108,6 @@ func _apply_reveal_color() -> void:
 
 func _on_reveal_finished() -> void:
 	_reveal_completed = true
-	_reveal_is_paused = false
 
 # --- ПРИХОД К СТОЙКЕ ---
 func walk_to_desk() -> void:
@@ -140,9 +128,6 @@ func walk_to_desk() -> void:
 	_reveal_tween = create_tween()
 	_reveal_tween.tween_method(_set_reveal_progress, _reveal_progress, 1.0, 0.5).set_delay(reveal_time)
 	_reveal_tween.finished.connect(_on_reveal_finished)
-	if not _is_light_enabled:
-		_reveal_tween.pause()
-		_reveal_is_paused = true
 
 	_tween.finished.connect(_on_arrived)
 
@@ -181,7 +166,6 @@ func _leave(target_pos: Vector2, target_scale: float, fade_out: bool) -> void:
 	if _reveal_tween and not _reveal_completed:
 		_reveal_tween.kill()
 		_reveal_completed = true
-		_reveal_is_paused = false
 
 	if _tween: _tween.kill()
 	_tween = create_tween()
