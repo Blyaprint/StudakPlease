@@ -24,7 +24,7 @@ enum State {
 
 @export_group("Настройки движения")
 @export var speed: float = 75.0
-@export var approach_speed_multiplier: float = 3.0
+@export var approach_speed_multiplier: float = 2.0
 @export var approach_walk_amplitude: float = 1.8
 @export var passing_walk_amplitude: float = 0.5
 
@@ -291,7 +291,12 @@ func _set_route(new_route: Route) -> void:
 	if _tween and _tween.is_running():
 		_tween.kill()
 
-	var duration := position.distance_to(target_pos) / maxf(movement_speed, 0.001)
+	var duration: float
+	if _route == Route.TO_DESK:
+		# Y задаёт глубину сцены и не должен удлинять путь к игроку.
+		duration = absf(target_pos.x - position.x) / maxf(movement_speed, 0.001)
+	else:
+		duration = position.distance_to(target_pos) / maxf(movement_speed, 0.001)
 	_tween = create_tween()
 	_tween.set_parallel(true)
 	_tween.tween_property(self, "position", target_pos, duration)
