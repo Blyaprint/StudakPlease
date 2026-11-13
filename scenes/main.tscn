@@ -65,6 +65,7 @@ animations = [{
 [node name="main" type="Node2D" unique_id=1678034725]
 texture_filter = 1
 script = ExtResource("1_sugp2")
+reveal_duration = 0.25
 
 [node name="NightOverlay" parent="." unique_id=1335708732 instance=ExtResource("4_jyhfs")]
 visible = false
