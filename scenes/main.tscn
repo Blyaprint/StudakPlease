@@ -230,7 +230,6 @@ texture = ExtResource("15_jkv2x")
 visible = false
 
 [node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
-visible = false
 position = Vector2(-153.99994, 129.00002)
 scale = Vector2(1.4, 1.4)
 speed = 75.0
