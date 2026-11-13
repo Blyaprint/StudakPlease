@@ -87,6 +87,7 @@ var _tween: Tween
 var _reveal_tween: Tween
 var _scare_tween: Tween
 var _scare_recognized: bool = false
+var _scare_paused: bool = false
 var _reveal_progress: float = 0.0
 var _reveal_started: bool = false
 var _attack_remaining: float = 0.0
@@ -206,12 +207,14 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 					# отменяем остаток появления и сразу запускаем защиту.
 					_cancel_scare()
 					_begin_defense_from_scare()
-				elif _scare_tween and _scare_tween.is_running():
+				elif _scare_tween and _scare_tween.is_valid():
 					# До момента распознавания эффект можно продолжить после включения света.
 					_scare_tween.pause()
+					_scare_paused = true
 			else:
-				if _scare_tween and _scare_tween.is_running() and _scare_tween.is_paused():
+				if _scare_tween and _scare_tween.is_valid() and _scare_paused:
 					_scare_tween.play()
+					_scare_paused = false
 			return
 		State.ATTACKING:
 			# Повторное включение света сбрасывает только таймер защиты.
@@ -393,6 +396,7 @@ func _on_scare_impact() -> void:
 
 func _on_scare_finished() -> void:
 	_scare_tween = null
+	_scare_paused = false
 	if _is_light_enabled:
 		_begin_attack()
 	else:
