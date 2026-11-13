@@ -17,7 +17,7 @@ enum Route {
 
 @export_group("Пороги фиксации маршрута")
 @export var desk_route_lock_x: float = 35.0
-@export var pass_route_lock_x: float = 500.0
+@export var pass_route_lock_x: float = 400.0
 
 @export_group("Настройки перспективы (Размеры)")
 @export var spawn_scale: float = 0.4 # Размер при появлении
@@ -36,6 +36,7 @@ enum Route {
 @export var squash_amount: float = 0.05
 @export var rock_angle: float = 3.0
 @export var rock_shift: float = 2.0
+@export_range(0.0, 1.0, 0.05) var passing_walk_amplitude: float = 0.5
 
 var _tween: Tween
 var _reveal_tween: Tween
@@ -45,6 +46,7 @@ var _reveal_completed: bool = false
 var _is_light_enabled: bool = false
 var _route: Route = Route.NONE
 var _route_locked: bool = false
+var _walk_amplitude_multiplier: float = 1.0
 var dialog_panel: Control = null
 var dialog_label: Label = null
 
@@ -86,17 +88,19 @@ func _process(delta: float) -> void:
 
 	var wave = sin(_walk_time)
 	var wave_01 = (wave + 1.0) / 2.0
+	var walk_amplitude = _walk_amplitude_multiplier
 
-	$Sprite.position.y = _base_sprite_pos.y - (wave_01 * bob_amount)
+	$Sprite.position.y = _base_sprite_pos.y - (wave_01 * bob_amount * walk_amplitude)
 
-	var squash = 1.0 + (wave_01 * squash_amount)
+	var squash = 1.0 + (wave_01 * squash_amount * walk_amplitude)
 	$Sprite.scale = Vector2(2.0 - squash, squash)
 
-	$Sprite.rotation_degrees = wave * rock_angle
-	$Sprite.position.x = _base_sprite_pos.x + (wave * rock_shift)
+	$Sprite.rotation_degrees = wave * rock_angle * walk_amplitude
+	$Sprite.position.x = _base_sprite_pos.x + (wave * rock_shift * walk_amplitude)
 
 func _reset_sprite_transform() -> void:
 	_is_walking = false
+	_walk_amplitude_multiplier = 1.0
 	if $Sprite:
 		$Sprite.position = _base_sprite_pos
 		$Sprite.scale = Vector2(1.0, 1.0)
@@ -164,6 +168,7 @@ func _set_route(new_route: Route) -> void:
 		return
 
 	_route = new_route
+	_walk_amplitude_multiplier = passing_walk_amplitude if _route == Route.PASSING else 1.0
 	_is_walking = true
 	if $Sprite.sprite_frames and $Sprite.sprite_frames.has_animation("walk"):
 		$Sprite.play("walk")
@@ -238,6 +243,7 @@ func deny_pass() -> void:
 
 func _leave(target_pos: Vector2, target_scale: float, fade_out: bool) -> void:
 	_is_walking = true
+	_walk_amplitude_multiplier = 1.0
 	if $Sprite.sprite_frames and $Sprite.sprite_frames.has_animation("walk"):
 		$Sprite.play("walk")
 
