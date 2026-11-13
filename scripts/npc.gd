@@ -59,6 +59,7 @@ var _walk_time: float = 0.0
 
 func _ready() -> void:
 	add_to_group("npc")
+	add_to_group("visitor")
 
 	position = spawn_pos
 	scale = Vector2(spawn_scale, spawn_scale)
