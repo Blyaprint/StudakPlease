@@ -367,13 +367,13 @@ func _start_arrival_scare() -> void:
 	_scare_tween.tween_property(
 		_sprite,
 		"position",
-		_base_sprite_pos + Vector2(0.0, 9.0),
+		_base_sprite_pos + Vector2(0.0, 15.0),
 		maxf(scare_lunge_duration, 0.001)
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	_scare_tween.chain().tween_property(
 		_sprite,
 		"position",
-		_base_sprite_pos + Vector2(0.0, 16.0),
+		_base_sprite_pos + Vector2(0.0, 80.0),
 		maxf(scare_loom_duration, 0.001)
 	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	_scare_tween.parallel().tween_property(
