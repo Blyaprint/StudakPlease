@@ -227,10 +227,8 @@ scale = Vector2(3.375, 3.375)
 texture = ExtResource("15_jkv2x")
 
 [node name="PC" parent="." unique_id=224578492 instance=ExtResource("17_muem4")]
-visible = false
 
 [node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
-visible = false
 position = Vector2(-153.99994, 129.00002)
 scale = Vector2(1.4, 1.4)
 speed = 75.0
