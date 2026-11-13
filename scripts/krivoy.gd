@@ -98,6 +98,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_try_lock_route()
+
 	if _is_walking:
 		_update_walk(delta)
 
