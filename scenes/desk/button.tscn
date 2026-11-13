@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bfaydibx46mp7"]
+
+[ext_resource type="Script" uid="uid://dto2oj67x015d" path="res://scripts/radio.gd" id="1_oxdvu"]
+[ext_resource type="Texture2D" uid="uid://pdwvxgmbmb5w" path="res://assets/sprites/GUI/Dark/Button/DarkDeck_Button1.png" id="2_oxdvu"]
+[ext_resource type="Texture2D" uid="uid://btdqbs7svucwh" path="res://assets/sprites/GUI/Dark/Button/DarkDeck_Button2.png" id="3_hpmnk"]
+[ext_resource type="Texture2D" uid="uid://dq2ryjbv8pxbj" path="res://assets/sprites/GUI/Dark/Button/DarkDeck_Button3.png" id="4_djthd"]
+[ext_resource type="Texture2D" uid="uid://duhn8c4myib6x" path="res://assets/sprites/GUI/Dark/Button/DarkDeck_Button4.png" id="5_67135"]
+[ext_resource type="Texture2D" uid="uid://cfpj0ai1llm0x" path="res://assets/sprites/GUI/Light/Button/Lightdeck_button1.png" id="6_1gu5i"]
+[ext_resource type="Texture2D" uid="uid://cec2he8gqps5t" path="res://assets/sprites/GUI/Light/Button/Lightdeck_button2.png" id="7_r52yl"]
+[ext_resource type="Texture2D" uid="uid://63p4a5i6v1m1" path="res://assets/sprites/GUI/Light/Button/Lightdeck_button3.png" id="8_o423d"]
+[ext_resource type="Texture2D" uid="uid://5mgb2urkexim" path="res://assets/sprites/GUI/Light/Button/Lightdeck_button4.png" id="9_gqwib"]
+[ext_resource type="Script" uid="uid://b4gesfiauvpan" path="res://scripts/button.gd" id="10_hpmnk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vtha"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_oxdvu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hpmnk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_djthd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_67135")
+}],
+"loop": true,
+"name": &"dark",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_1gu5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_r52yl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_o423d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_gqwib")
+}],
+"loop": true,
+"name": &"light",
+"speed": 12.0
+}]
+
+[node name="Button" type="Node2D" unique_id=1785363589]
+texture_filter = 1
+script = ExtResource("1_oxdvu")
+anim_lit = "light"
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=497845535]
+sprite_frames = SubResource("SpriteFrames_6vtha")
+animation = &"light"
+autoplay = "dark"
+script = ExtResource("10_hpmnk")
+anim_lit = "light"
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=589006517]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-48, 57, -44, 53, -41, 53, -37, 57, -37, 61, -41, 65, -44, 65, -48, 61)

@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dts54xg68k6hx" path="res://assets/sprites/GUI/Light/Deck/deck_new_anim4.png" id="8_ubx8w"]
 [ext_resource type="Script" uid="uid://ruxe60kd0gby" path="res://scripts/environment_anim.gd" id="9_3gufr"]
 [ext_resource type="PackedScene" uid="uid://dxry03p06uefq" path="res://scenes/desk/radio.tscn" id="12_fw753"]
+[ext_resource type="PackedScene" uid="uid://bfaydibx46mp7" path="res://scenes/desk/button.tscn" id="14_bd6od"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lfhn1"]
 animations = [{
@@ -74,3 +75,6 @@ item_name = "phone"
 
 [node name="Radio" parent="." unique_id=1342541566 instance=ExtResource("12_fw753")]
 item_name = "radio"
+
+[node name="Button" parent="." unique_id=1785363589 instance=ExtResource("14_bd6od")]
+item_name = "Button"
