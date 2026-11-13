@@ -26,9 +26,12 @@ const KRIVOY_SCENE: PackedScene = preload("res://scenes/krivoy.tscn")
 var _spawn_timer: Timer
 var _active_visitor: Node2D
 var _game_over: bool = false
+var _screen_shake_tween: Tween
+var _screen_shake_origin: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	_screen_shake_origin = position
 	GameState.light_mode_changed.connect(_on_light_mode_changed)
 	_on_light_mode_changed(GameState.is_lit_mode)
 
@@ -64,6 +67,10 @@ func _spawn_next_visitor() -> void:
 
 	if visitor.has_signal("game_over_requested"):
 		visitor.connect("game_over_requested", Callable(self, "_show_game_over"))
+	if visitor.has_signal("screen_shake_requested"):
+		visitor.connect("screen_shake_requested", Callable(self, "_start_screen_shake"))
+	if visitor.has_signal("screen_shake_cancelled"):
+		visitor.connect("screen_shake_cancelled", Callable(self, "_stop_screen_shake"))
 
 	_active_visitor = visitor
 	visitor.tree_exited.connect(_on_active_visitor_exited)
@@ -95,6 +102,36 @@ func _on_active_visitor_exited() -> void:
 	_active_visitor = null
 	if not _game_over and is_instance_valid(_spawn_timer):
 		_spawn_timer.start(maxf(spawn_delay, 0.05))
+
+
+func _start_screen_shake(duration: float, strength: float) -> void:
+	if _screen_shake_tween and _screen_shake_tween.is_running():
+		_screen_shake_tween.kill()
+	position = _screen_shake_origin
+	_screen_shake_tween = create_tween()
+	_screen_shake_tween.tween_method(
+		_set_screen_shake_progress.bind(strength),
+		0.0,
+		1.0,
+		maxf(duration, 0.001)
+	)
+	_screen_shake_tween.finished.connect(_stop_screen_shake)
+
+
+func _set_screen_shake_progress(progress: float, strength: float) -> void:
+	var fade := 1.0 - progress
+	var offset := Vector2(
+		sin(progress * TAU * 22.0) * strength * fade,
+		cos(progress * TAU * 17.0) * strength * 0.65 * fade
+	)
+	position = _screen_shake_origin + offset
+
+
+func _stop_screen_shake() -> void:
+	if _screen_shake_tween and _screen_shake_tween.is_running():
+		_screen_shake_tween.kill()
+	_screen_shake_tween = null
+	position = _screen_shake_origin
 
 
 func _show_game_over() -> void:
