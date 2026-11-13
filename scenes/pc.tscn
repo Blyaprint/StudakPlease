@@ -5,14 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://brpaln4e8u5vg" path="res://assets/sprites/GUI/db_ico.png" id="3_uuu8i"]
 [ext_resource type="Texture2D" uid="uid://dltwqvyncqx7m" path="res://assets/sprites/GUI/folder_ico.png" id="4_pghs8"]
 
-[sub_resource type="StyleBoxFlat" id="DesktopWindowStyle"]
-bg_color = Color(0.91, 0.92, 0.94, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.16, 0.28, 0.48, 1)
-
 [sub_resource type="StyleBoxFlat" id="IconSelectionStyle"]
 bg_color = Color(0.12, 0.38, 0.82, 0.38)
 border_width_left = 1
@@ -20,6 +12,14 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.55, 0.75, 1, 0.95)
+
+[sub_resource type="StyleBoxFlat" id="DesktopWindowStyle"]
+bg_color = Color(0.91, 0.92, 0.94, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16, 0.28, 0.48, 1)
 
 [node name="PC" type="CanvasLayer" unique_id=224578492]
 layer = 100
@@ -74,7 +74,6 @@ color = Color(0.16, 0.39, 0.68, 1)
 
 [node name="IconsContainer" type="VBoxContainer" parent="PC_UI/Desktop" unique_id=1414270239]
 layout_mode = 1
-anchors_preset = 0
 offset_left = 7.0
 offset_top = 7.0
 offset_right = 67.0
@@ -84,13 +83,12 @@ theme_override_constants/separation = 5
 [node name="IconRadar" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1474743792]
 custom_minimum_size = Vector2(52, 58)
 layout_mode = 2
-texture_normal = ExtResource("2_heffb")
-stretch_mode = 5
-ignore_texture_size = true
 tooltip_text = "Радар"
+texture_normal = ExtResource("2_heffb")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconRadar"]
-z_index = 0
+[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconRadar" unique_id=1538599736]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,18 +97,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("IconSelectionStyle")
-visible = false
 
-[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconRadar"]
-z_index = 0
+[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconRadar" unique_id=1330750994]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -13.0
+offset_top = -2.0
+offset_bottom = 11.0
 grow_horizontal = 2
-mouse_filter = 2
+grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -122,13 +119,12 @@ horizontal_alignment = 1
 [node name="IconDatabase" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1777161786]
 custom_minimum_size = Vector2(52, 58)
 layout_mode = 2
-texture_normal = ExtResource("3_uuu8i")
-stretch_mode = 5
-ignore_texture_size = true
 tooltip_text = "База данных"
+texture_normal = ExtResource("3_uuu8i")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconDatabase"]
-z_index = 0
+[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconDatabase" unique_id=969906418]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -137,18 +133,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("IconSelectionStyle")
-visible = false
 
-[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconDatabase"]
-z_index = 0
+[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconDatabase" unique_id=2122528851]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -13.0
+offset_top = -2.0
+offset_bottom = 11.0
 grow_horizontal = 2
-mouse_filter = 2
+grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -160,13 +155,12 @@ horizontal_alignment = 1
 [node name="IconFolder" type="TextureButton" parent="PC_UI/Desktop/IconsContainer" unique_id=1794787456]
 custom_minimum_size = Vector2(52, 58)
 layout_mode = 2
-texture_normal = ExtResource("4_pghs8")
-stretch_mode = 5
-ignore_texture_size = true
 tooltip_text = "Проводник"
+texture_normal = ExtResource("4_pghs8")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconFolder"]
-z_index = 0
+[node name="SelectionFrame" type="Panel" parent="PC_UI/Desktop/IconsContainer/IconFolder" unique_id=936478807]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -175,18 +169,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("IconSelectionStyle")
-visible = false
 
-[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconFolder"]
-z_index = 0
+[node name="IconLabel" type="Label" parent="PC_UI/Desktop/IconsContainer/IconFolder" unique_id=896887358]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -13.0
+offset_top = -2.0
+offset_bottom = 11.0
 grow_horizontal = 2
-mouse_filter = 2
+grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -205,9 +198,9 @@ anchor_bottom = 1.0
 offset_top = -30.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0.10, 0.23, 0.48, 1)
+color = Color(0.1, 0.23, 0.48, 1)
 
-[node name="StartButton" type="Panel" parent="PC_UI/Desktop/TaskBar"]
+[node name="StartButton" type="Panel" parent="PC_UI/Desktop/TaskBar" unique_id=781242201]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 3.0
@@ -215,7 +208,7 @@ offset_right = 58.0
 offset_bottom = 27.0
 theme_override_styles/panel = SubResource("DesktopWindowStyle")
 
-[node name="StartLabel" type="Label" parent="PC_UI/Desktop/TaskBar/StartButton"]
+[node name="StartLabel" type="Label" parent="PC_UI/Desktop/TaskBar/StartButton" unique_id=489206340]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,7 +231,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 9
 text = "Мой компьютер"
 
-[node name="Clock" type="Label" parent="PC_UI/Desktop/TaskBar"]
+[node name="Clock" type="Label" parent="PC_UI/Desktop/TaskBar" unique_id=842751965]
 layout_mode = 0
 offset_left = 585.0
 offset_top = 7.0
@@ -259,6 +252,7 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="RadarWindow" type="Panel" parent="PC_UI/WindowLayer" unique_id=618165389]
+layout_mode = 0
 offset_right = 250.0
 offset_bottom = 150.0
 theme_override_styles/panel = SubResource("DesktopWindowStyle")
@@ -289,12 +283,11 @@ offset_left = 7.0
 offset_top = 3.0
 offset_right = 190.0
 offset_bottom = 21.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 10
 text = "Радар"
 
-[node name="RadarContent" type="Label" parent="PC_UI/WindowLayer/RadarWindow"]
+[node name="RadarContent" type="Label" parent="PC_UI/WindowLayer/RadarWindow" unique_id=458144739]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 39.0
@@ -302,17 +295,20 @@ offset_right = 240.0
 offset_bottom = 130.0
 theme_override_colors/font_color = Color(0.12, 0.14, 0.18, 1)
 theme_override_font_sizes/font_size = 9
-text = "Система наблюдения\n\nДанные пока не загружены."
+text = "Система наблюдения
+
+Данные пока не загружены."
 autowrap_mode = 2
 
 [node name="DatabaseWindow" type="Panel" parent="PC_UI/WindowLayer" unique_id=679086151]
+layout_mode = 0
 offset_left = 35.0
 offset_top = 25.0
 offset_right = 285.0
 offset_bottom = 175.0
 theme_override_styles/panel = SubResource("DesktopWindowStyle")
 
-[node name="Title" type="ColorRect" parent="PC_UI/WindowLayer/DatabaseWindow"]
+[node name="Title" type="ColorRect" parent="PC_UI/WindowLayer/DatabaseWindow" unique_id=1350562779]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -321,18 +317,17 @@ grow_horizontal = 2
 mouse_filter = 2
 color = Color(0.05, 0.24, 0.62, 1)
 
-[node name="TitleText" type="Label" parent="PC_UI/WindowLayer/DatabaseWindow"]
+[node name="TitleText" type="Label" parent="PC_UI/WindowLayer/DatabaseWindow" unique_id=1306696065]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 3.0
 offset_right = 190.0
 offset_bottom = 21.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 10
 text = "База данных"
 
-[node name="DatabaseContent" type="Label" parent="PC_UI/WindowLayer/DatabaseWindow"]
+[node name="DatabaseContent" type="Label" parent="PC_UI/WindowLayer/DatabaseWindow" unique_id=1484257642]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 39.0
@@ -340,17 +335,20 @@ offset_right = 240.0
 offset_bottom = 130.0
 theme_override_colors/font_color = Color(0.12, 0.14, 0.18, 1)
 theme_override_font_sizes/font_size = 9
-text = "База посетителей\n\nНет подключённых записей."
+text = "База посетителей
+
+Нет подключённых записей."
 autowrap_mode = 2
 
 [node name="FolderWindow" type="Panel" parent="PC_UI/WindowLayer" unique_id=305562571]
+layout_mode = 0
 offset_left = 65.0
 offset_top = 40.0
 offset_right = 335.0
 offset_bottom = 205.0
 theme_override_styles/panel = SubResource("DesktopWindowStyle")
 
-[node name="Title" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="Title" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow" unique_id=1256611971]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -359,18 +357,17 @@ grow_horizontal = 2
 mouse_filter = 2
 color = Color(0.05, 0.24, 0.62, 1)
 
-[node name="TitleText" type="Label" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="TitleText" type="Label" parent="PC_UI/WindowLayer/FolderWindow" unique_id=821719893]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 3.0
 offset_right = 190.0
 offset_bottom = 21.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 10
 text = "Проводник"
 
-[node name="Toolbar" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="Toolbar" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow" unique_id=1344452190]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 24.0
@@ -379,18 +376,17 @@ offset_bottom = 43.0
 mouse_filter = 2
 color = Color(0.84, 0.87, 0.91, 1)
 
-[node name="AddressLabel" type="Label" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="AddressLabel" type="Label" parent="PC_UI/WindowLayer/FolderWindow" unique_id=1976556495]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 27.0
 offset_right = 260.0
 offset_bottom = 41.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.16, 0.18, 0.22, 1)
 theme_override_font_sizes/font_size = 8
 text = "Адрес: Мой компьютер"
 
-[node name="Sidebar" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="Sidebar" type="ColorRect" parent="PC_UI/WindowLayer/FolderWindow" unique_id=1755050793]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 44.0
@@ -399,26 +395,32 @@ offset_bottom = 164.0
 mouse_filter = 2
 color = Color(0.78, 0.84, 0.91, 1)
 
-[node name="SidebarText" type="Label" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="SidebarText" type="Label" parent="PC_UI/WindowLayer/FolderWindow" unique_id=263174228]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 51.0
 offset_right = 72.0
 offset_bottom = 150.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.12, 0.19, 0.3, 1)
 theme_override_font_sizes/font_size = 8
-text = "Системные\nзадачи\n\nДругие\nместа\n\nПодробно"
+text = "Системные
+задачи
+
+Другие
+места
+
+Подробно"
 autowrap_mode = 2
 
-[node name="FolderContent" type="Label" parent="PC_UI/WindowLayer/FolderWindow"]
+[node name="FolderContent" type="Label" parent="PC_UI/WindowLayer/FolderWindow" unique_id=1897283738]
 layout_mode = 0
 offset_left = 86.0
 offset_top = 54.0
 offset_right = 260.0
 offset_bottom = 145.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.12, 0.14, 0.18, 1)
 theme_override_font_sizes/font_size = 9
-text = "Мои документы\nЛокальный диск (C:)\nСетевое окружение"
+text = "Мои документы
+Локальный диск (C:)
+Сетевое окружение"
 autowrap_mode = 2

@@ -14,14 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://ddd2bvhe147yy" path="res://assets/sprites/GUI/Light/Back/back_new_anim4.png" id="5_trceg"]
 [ext_resource type="Script" uid="uid://ruxe60kd0gby" path="res://scripts/environment_anim.gd" id="10_trceg"]
 [ext_resource type="PackedScene" uid="uid://djgmfl55nafbk" path="res://scenes/npc.tscn" id="14_a8y0u"]
-[ext_resource type="FontFile" uid="uid://bdpjtkpraxohm" path="res://assets/fonts/Hardpixel.OTF" id="14_jbj1t"]
+[ext_resource type="FontFile" uid="uid://bak8x3dh3intw" path="res://assets/fonts/zx_spectrum-7.ttf" id="14_muem4"]
 [ext_resource type="Texture2D" uid="uid://btbbp2wj5y1a5" path="res://assets/sprites/GUI/oneblock.png" id="15_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://mpirf0780a6w" path="res://scenes/pc.tscn" id="17_muem4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tefeu"]
 shader = ExtResource("5_tbgi4")
-shader_parameter/aberration_strength = 3.6330001725675
-shader_parameter/aberration_vignette = 0.18400000874
+shader_parameter/aberration_strength = 2.000000095
+shader_parameter/aberration_vignette = 0.074000003515
 shader_parameter/noise_strength = 0.010000000475
 shader_parameter/noise_speed = 0.010000000475
 shader_parameter/viewport_size = Vector2(334, 187)
@@ -68,6 +68,7 @@ texture_filter = 1
 script = ExtResource("1_sugp2")
 
 [node name="NightOverlay" parent="." unique_id=1335708732 instance=ExtResource("4_jyhfs")]
+visible = false
 
 [node name="PostFX Layer" type="CanvasLayer" parent="." unique_id=522691980]
 layer = 6
@@ -122,27 +123,12 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-theme_override_fonts/font = ExtResource("14_jbj1t")
+theme_override_colors/font_color = Color(0.91314715, 0.7290248, 0.34272218, 1)
+theme_override_fonts/font = ExtResource("14_muem4")
 theme_override_font_sizes/font_size = 11
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
-
-[node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
-position = Vector2(-153.99994, 129.00002)
-scale = Vector2(1.4, 1.4)
-speed = 75.0
-spawn_pos = Vector2(28, 150)
-wait_pos = Vector2(208, 160)
-exit_right_pos = Vector2(558, 150)
-exit_left_pos = Vector2(-180, 150)
-spawn_scale = 1.0
-wait_scale = 1.5
-exit_scale = 1.0
-reveal_time = 1.5
-fade_to_shadow_time = 0.7
-rock_angle = 1.0
-rock_shift = 1.0
 
 [node name="Frames" type="CanvasLayer" parent="." unique_id=1578482890]
 layer = 4
@@ -241,3 +227,18 @@ scale = Vector2(3.375, 3.375)
 texture = ExtResource("15_jkv2x")
 
 [node name="PC" parent="." unique_id=224578492 instance=ExtResource("17_muem4")]
+
+[node name="Npc" parent="." unique_id=701884972 instance=ExtResource("14_a8y0u")]
+position = Vector2(-153.99994, 129.00002)
+scale = Vector2(1.4, 1.4)
+speed = 75.0
+spawn_pos = Vector2(28, 150)
+wait_pos = Vector2(208, 180)
+exit_right_pos = Vector2(558, 150)
+exit_left_pos = Vector2(-180, 150)
+spawn_scale = 0.5
+wait_scale = 0.8
+exit_scale = 0.5
+reveal_time = 1.5
+fade_to_shadow_time = 0.7
+squash_amount = 0.0

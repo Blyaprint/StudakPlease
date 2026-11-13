@@ -4,9 +4,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8lwyt"]
 shader = ExtResource("1_h18gf")
-shader_parameter/shadow_color = Color(0.083217405, 0.08508734, 0.08588766, 1)
-shader_parameter/darkness = 0.6350000301625
-shader_parameter/tint_color = Color(0.5101786, 0.6774965, 0.7994901, 1)
+shader_parameter/shadow_color = Color(0.013139557, 0.064339004, 0.23299816, 1)
+shader_parameter/darkness = 0.5250000249375
+shader_parameter/tint_color = Color(0.38492155, 0.6805404, 0.9403973, 1)
 shader_parameter/tint_strength = 0.678000032205
 shader_parameter/saturation = 1.278000060705
 shader_parameter/blend_mode = 1

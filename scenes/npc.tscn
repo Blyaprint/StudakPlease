@@ -1,17 +1,17 @@
 [gd_scene format=3 uid="uid://djgmfl55nafbk"]
 
 [ext_resource type="Script" uid="uid://c7pxm777rxh2j" path="res://scripts/npc.gd" id="1_abqhh"]
-[ext_resource type="Texture2D" uid="uid://dv3mb0oxbvqx4" path="res://assets/sprites/NPCs/Mudachok.png" id="2_rv78h"]
+[ext_resource type="Texture2D" uid="uid://ffewhihyorne" path="res://assets/sprites/NPCs/Kostya_light4.png" id="2_abqhh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_abqhh"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_rv78h")
+"texture": ExtResource("2_abqhh")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 30.0
 }]
 
 [node name="Npc" type="Node2D" unique_id=701884972]
@@ -21,10 +21,12 @@ script = ExtResource("1_abqhh")
 layer = 7
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=372190250]
+position = Vector2(-2, 4)
 sprite_frames = SubResource("SpriteFrames_abqhh")
 autoplay = "default"
-frame_progress = 0.64417887
+frame_progress = 0.43333995
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1702913178]
+visible = false
 color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
