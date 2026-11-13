@@ -217,6 +217,9 @@ func _on_light_mode_changed(is_lit: bool) -> void:
 					_scare_paused = false
 			return
 		State.ATTACKING:
+			if not is_lit:
+				# В темноте спрайт возвращается к исходной позе и размеру.
+				_reset_sprite_transform()
 			# Повторное включение света сбрасывает только таймер защиты.
 			_defense_remaining = defense_duration
 			return
