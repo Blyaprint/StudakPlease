@@ -25,6 +25,8 @@ enum State {
 @export_group("Настройки движения")
 @export var speed: float = 75.0
 var approach_duration: float = 2.4
+var approach_min_speed_multiplier: float = 0.8
+var approach_max_speed_multiplier: float = 1.2
 @export var approach_speed_multiplier: float = 2.0
 @export var approach_walk_amplitude: float = 1.8
 @export var passing_walk_amplitude: float = 0.5
@@ -294,8 +296,14 @@ func _set_route(new_route: Route) -> void:
 
 	var duration: float
 	if _route == Route.TO_DESK:
-		# Общее время подхода задаётся в Inspector главной сцены.
-		duration = maxf(approach_duration, 0.001)
+		# Скорость рассчитывается по горизонтальному расстоянию; глубина по Y не влияет на время.
+		var horizontal_distance := absf(target_pos.x - position.x)
+		var reference_duration := maxf(approach_duration, 0.001)
+		var min_approach_speed := maxf(movement_speed * approach_min_speed_multiplier, 0.001)
+		var max_approach_speed := maxf(movement_speed * approach_max_speed_multiplier, min_approach_speed)
+		var desired_approach_speed := horizontal_distance / reference_duration
+		var approach_speed := clampf(desired_approach_speed, min_approach_speed, max_approach_speed)
+		duration = horizontal_distance / approach_speed if horizontal_distance > 0.001 else reference_duration
 	else:
 		duration = position.distance_to(target_pos) / maxf(movement_speed, 0.001)
 	_tween = create_tween()
