@@ -131,6 +131,8 @@ func _start_screen_shake(duration: float, strength: float) -> void:
 		1.0,
 		maxf(duration, 0.001)
 	)
+	# Применяем первый сдвиг синхронно с сигналом, не ожидая первого шага tween.
+	_set_screen_shake_progress(0.0, strength)
 	_screen_shake_tween.finished.connect(_stop_screen_shake)
 
 
