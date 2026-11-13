@@ -24,7 +24,7 @@ enum State {
 
 @export_group("Настройки движения")
 @export var speed: float = 75.0
-@export var approach_speed_multiplier: float = 1.5
+@export var approach_speed_multiplier: float = 3.0
 @export var approach_walk_amplitude: float = 1.8
 @export var passing_walk_amplitude: float = 0.5
 
@@ -67,11 +67,11 @@ enum State {
 @export var bob_speed: float = 12.0
 @export var squash_amount: float = 0.05
 @export var rock_angle: float = 3.0
-@export var rock_shift: float = 2.0
-@export var run_jump_height: float = 9.0
-@export var run_cycle_speed_multiplier: float = 0.55
-@export var run_forward_lean: float = 13.0
-@export var run_side_lean: float = 7.0
+@export var rock_shift: float = 0.0
+@export var run_jump_height: float = 15.0
+@export var run_cycle_speed_multiplier: float = 1.0
+@export var run_forward_lean: float = 0.0
+@export var run_side_lean: float = 15.0
 @export var run_landing_squash: float = 0.16
 
 var has_arrived: bool = false
@@ -359,20 +359,15 @@ func _start_arrival_scare() -> void:
 		return
 
 	_state = State.SCARING
-	# Распознавание, тряска и первое увеличение начинаются в один момент прибытия.
+	# Мгновенно увеличиваем спрайт до отправки сигнала: тряска начинается в тот же кадр.
 	_scare_recognized = true
+	_sprite.scale = Vector2.ONE * scare_lunge_scale
 	screen_shake_requested.emit(scare_shake_duration, scare_shake_strength)
 	_scare_tween = create_tween()
 	_scare_tween.tween_property(
 		_sprite,
 		"position",
 		_base_sprite_pos + Vector2(0.0, 9.0),
-		maxf(scare_lunge_duration, 0.001)
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	_scare_tween.parallel().tween_property(
-		_sprite,
-		"scale",
-		Vector2.ONE * scare_lunge_scale,
 		maxf(scare_lunge_duration, 0.001)
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	_scare_tween.chain().tween_property(
