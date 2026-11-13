@@ -33,6 +33,7 @@ var _screen_shake_layer_origins: Dictionary = {}
 
 func _ready() -> void:
 	_screen_shake_origin = position
+	_capture_screen_shake_layer_origins()
 	GameState.light_mode_changed.connect(_on_light_mode_changed)
 	_on_light_mode_changed(GameState.is_lit_mode)
 
@@ -105,10 +106,24 @@ func _on_active_visitor_exited() -> void:
 		_spawn_timer.start(maxf(spawn_delay, 0.05))
 
 
+func _capture_screen_shake_layer_origins() -> void:
+	_screen_shake_layer_origins.clear()
+	_collect_screen_shake_layers(self)
+
+
+func _collect_screen_shake_layers(node: Node) -> void:
+	for child in node.get_children():
+		if child is CanvasLayer:
+			var canvas_layer := child as CanvasLayer
+			_screen_shake_layer_origins[canvas_layer] = canvas_layer.offset
+		_collect_screen_shake_layers(child)
+
+
 func _start_screen_shake(duration: float, strength: float) -> void:
 	if _screen_shake_tween and _screen_shake_tween.is_running():
 		_stop_screen_shake()
 	position = _screen_shake_origin
+	_capture_screen_shake_layer_origins()
 	_screen_shake_tween = create_tween()
 	_screen_shake_tween.tween_method(
 		_set_screen_shake_progress.bind(strength),
@@ -126,6 +141,10 @@ func _set_screen_shake_progress(progress: float, strength: float) -> void:
 		cos(progress * TAU * 17.0) * strength * 0.65 * fade
 	)
 	position = _screen_shake_origin + offset
+	for layer_ref in _screen_shake_layer_origins:
+		var canvas_layer := layer_ref as CanvasLayer
+		if is_instance_valid(canvas_layer):
+			canvas_layer.offset = _screen_shake_layer_origins[canvas_layer] + offset
 
 
 func _stop_screen_shake() -> void:
@@ -133,7 +152,10 @@ func _stop_screen_shake() -> void:
 		_screen_shake_tween.kill()
 	_screen_shake_tween = null
 	position = _screen_shake_origin
-
+	for layer_ref in _screen_shake_layer_origins:
+		var canvas_layer := layer_ref as CanvasLayer
+		if is_instance_valid(canvas_layer):
+			canvas_layer.offset = _screen_shake_layer_origins[canvas_layer]
 
 func _show_game_over() -> void:
 	if _game_over:
