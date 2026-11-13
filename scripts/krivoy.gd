@@ -57,6 +57,11 @@ enum State {
 @export var squash_amount: float = 0.05
 @export var rock_angle: float = 3.0
 @export var rock_shift: float = 2.0
+@export var run_jump_height: float = 9.0
+@export var run_cycle_speed_multiplier: float = 1.0
+@export var run_forward_lean: float = 13.0
+@export var run_side_lean: float = 7.0
+@export var run_landing_squash: float = 0.16
 
 var has_arrived: bool = false
 var is_leaving: bool = false
@@ -124,7 +129,14 @@ func _process(delta: float) -> void:
 
 
 func _update_walk(delta: float) -> void:
-	_walk_time += delta * bob_speed * _walk_cycle_speed_multiplier
+	var cycle_multiplier := _walk_cycle_speed_multiplier
+	if _route == Route.TO_DESK and not has_arrived:
+		cycle_multiplier *= run_cycle_speed_multiplier
+	_walk_time += delta * bob_speed * cycle_multiplier
+
+	if _route == Route.TO_DESK and not has_arrived:
+		_update_approach_run()
+		return
 
 	var wave := sin(_walk_time)
 	var wave_01 := (wave + 1.0) / 2.0
@@ -136,6 +148,24 @@ func _update_walk(delta: float) -> void:
 	_sprite.scale = Vector2(2.0 - squash, squash)
 	_sprite.rotation_degrees = wave * rock_angle * amplitude
 	_sprite.position.x = _base_sprite_pos.x + wave * rock_shift * amplitude
+
+
+func _update_approach_run() -> void:
+	# Два коротких прыжка за цикл: знак cos меняется на каждом приземлении,
+	# создавая ощущение попеременного отталкивания с ноги на ногу.
+	var hop := absf(sin(_walk_time))
+	var side := 1.0 if cos(_walk_time) >= 0.0 else -1.0
+	var landing := pow(absf(cos(_walk_time)), 12.0)
+
+	_sprite.position.y = _base_sprite_pos.y - hop * run_jump_height * _walk_amplitude_multiplier
+	_sprite.position.x = _base_sprite_pos.x + side * rock_shift * _walk_amplitude_multiplier
+	var landing_squash := landing * run_landing_squash
+	var stretch := hop * squash_amount * _walk_amplitude_multiplier
+	_sprite.scale = Vector2(
+		1.0 + landing_squash - stretch,
+		1.0 - landing_squash + stretch
+	)
+	_sprite.rotation_degrees = run_forward_lean + side * run_side_lean
 
 
 func _reset_sprite_transform() -> void:
