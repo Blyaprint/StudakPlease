@@ -58,7 +58,7 @@ enum State {
 @export var rock_angle: float = 3.0
 @export var rock_shift: float = 2.0
 @export var run_jump_height: float = 9.0
-@export var run_cycle_speed_multiplier: float = 1.0
+@export var run_cycle_speed_multiplier: float = 0.55
 @export var run_forward_lean: float = 13.0
 @export var run_side_lean: float = 7.0
 @export var run_landing_squash: float = 0.16
