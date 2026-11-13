@@ -243,6 +243,6 @@ exit_scale = 0.5
 reveal_start_distance = 60.0
 reveal_duration = 1.5
 desk_route_lock_x = 35.0
-pass_route_lock_x = 500.0
+pass_route_lock_x = 400.0
 fade_to_shadow_time = 0.7
 squash_amount = 0.0
