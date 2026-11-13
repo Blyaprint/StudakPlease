@@ -304,7 +304,7 @@ func _set_route(new_route: Route) -> void:
 	_tween.tween_property(self, "scale", Vector2.ONE * target_scale, duration)
 
 	if _route == Route.TO_DESK:
-		_tween.tween_property(self, "modulate:a", 1.0, 0.3)
+		_tween.tween_property(self, "modulate:a", 1.0, minf(0.3, duration))
 		_tween.finished.connect(_on_arrived)
 	else:
 		modulate.a = 1.0
