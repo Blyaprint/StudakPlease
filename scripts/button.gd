@@ -1,4 +1,4 @@
 extends Interactable
 
 func _interact() -> void:
-	print("[Button] Нажал.")
+	GameState.toggle_light()
