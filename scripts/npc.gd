@@ -9,6 +9,8 @@ enum Route {
 @export_group("Настройки движения")
 @export var speed: float = 150.0
 var approach_duration: float = 2.4
+var approach_min_speed_multiplier: float = 0.8
+var approach_max_speed_multiplier: float = 1.2
 
 @export_group("Точки маршрута (Координаты)")
 @export var spawn_pos: Vector2 = Vector2(-100, 40)
@@ -200,8 +202,14 @@ func _set_route(new_route: Route) -> void:
 
 	var duration: float
 	if _route == Route.TO_DESK:
-		# Общее время подхода задаётся в Inspector главной сцены.
-		duration = maxf(approach_duration, 0.001)
+		# Скорость рассчитывается по горизонтальному расстоянию, а Y остаётся глубиной траектории.
+		var horizontal_distance := absf(target_pos.x - position.x)
+		var reference_duration := maxf(approach_duration, 0.001)
+		var min_approach_speed := maxf(speed * approach_min_speed_multiplier, 0.001)
+		var max_approach_speed := maxf(speed * approach_max_speed_multiplier, min_approach_speed)
+		var desired_approach_speed := horizontal_distance / reference_duration
+		var approach_speed := clampf(desired_approach_speed, min_approach_speed, max_approach_speed)
+		duration = horizontal_distance / approach_speed if horizontal_distance > 0.001 else reference_duration
 	else:
 		duration = position.distance_to(target_pos) / maxf(speed, 0.001)
 	_tween = create_tween()
