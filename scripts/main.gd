@@ -113,7 +113,7 @@ func _show_game_over() -> void:
 
 	var background := ColorRect.new()
 	background.color = Color(0.0, 0.0, 0.0, 0.85)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.mouse_filter = Control.MOUSE_FILTER_STOP
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(background)
 
@@ -136,6 +136,12 @@ func _input(event: InputEvent) -> void:
 	if pc and pc.is_open:
 		if event.keycode == KEY_ESCAPE:
 			pc.close_pc()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Во время встречи с аномалией эти клавиши не должны запускать действия посетителя.
+	if get_tree().get_first_node_in_group("anomaly") != null:
+		if event.keycode == KEY_SPACE or event.keycode == KEY_ESCAPE:
 			get_viewport().set_input_as_handled()
 		return
 
