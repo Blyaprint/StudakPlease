@@ -174,6 +174,9 @@ func _set_route(new_route: Route) -> void:
 		_tween.tween_property(self, "modulate:a", 1.0, 0.3)
 		_tween.finished.connect(_on_arrived)
 	else:
+		# Посетитель, проходящий мимо, виден с самого начала как тёмный силуэт.
+		# Исчезновение начинается только на последней половине пути.
+		modulate.a = 1.0
 		_tween.tween_property(self, "modulate:a", 0.0, duration * 0.5).set_delay(duration * 0.5)
 		_tween.finished.connect(_on_passed)
 
