@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://djgmfl55nafbk"]
 
 [ext_resource type="Script" uid="uid://c7pxm777rxh2j" path="res://scripts/npc.gd" id="1_abqhh"]
-[ext_resource type="Texture2D" uid="uid://jyr7lb14ah0x" path="res://assets/sprites/NPCs/Krivoy.png" id="2_abqhh"]
+[ext_resource type="Texture2D" uid="uid://dv3mb0oxbvqx4" path="res://assets/sprites/NPCs/Mudachok.png" id="2_rv78h"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_abqhh"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_abqhh")
+"texture": ExtResource("2_rv78h")
 }],
 "loop": false,
 "name": &"default",
